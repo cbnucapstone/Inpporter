@@ -1,0 +1,62 @@
+hr{
+  height: 2.3px;
+  border: 0;
+  background: rgba(107, 190, 245, 0.98);
+  color: rgba(107, 190, 245, 0.98);
+
+}
+
+.navbar {
+  width: 100%;
+  height: 13%;
+  position: fixed;
+  display: flex;
+  /*justify-content: space-between;*/
+  align-items: center;
+  font-weight: bold;
+}
+
+.navbar-logo {
+  margin-left: 3%;
+
+}
+
+.navi-one {
+  width: 50%;
+  display: flex;
+}
+
+.nav-left {
+  color: black;
+  margin-left: 5%;
+  text-decoration: none;
+}
+
+.navi-two {
+  margin-right: 3%;
+  width: 50%;
+  flex:auto;
+  text-align: right;
+}
+
+.nav-right{
+  margin-right: 5%;
+  text-decoration: none;
+}
+
+#logo-link{
+  width: 100px;
+  height: 90px;
+}
+
+#signin{
+  color: rgba(248, 182, 150, 0.98);
+}
+
+#signup{
+  color: rgba(244, 131, 102, 0.98);
+}
+
+#under-line{
+  margin-top: 6.8%;
+}

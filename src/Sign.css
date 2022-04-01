@@ -1,0 +1,75 @@
+.SignForm {
+    width: 100%;
+    display: flex;
+    background: white;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top:20px;
+}
+
+.SignForm h2{
+    color:#362B2B;
+    font-size: 35px;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.SignContent{
+    padding-top:20px;
+    width: 500px;
+}
+
+.SignForm input {
+    width: 100%;
+    height: 50px;
+    border-radius: 30px;
+    margin-top: 10px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+    outline: none;
+}
+
+.Btns{    
+    margin-top:10px;
+    margin-left:40px;
+    width: 550px;
+}
+
+#SignInBtn{
+    margin-top: 30px;
+}
+
+#SignUpSubmit{
+    margin-top: 30px;
+
+}
+
+.SignForm button {
+    width: 100%;
+    height: 50px;
+    outline: none;
+    border-radius: 30px;
+    border:1.5px solid white;
+    color: white;
+    background-color: #afd4fa;
+    font-size: 1.2em;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.Btns button:hover{
+    color:#afd4fa;
+    background-color:white;
+    border:1.5px solid #afd4fa;
+    outline: none;
+}
+
+/* .Btns button:hover{
+    color:#FA8072;
+    background-color:white;
+    border:1.5px solid #FA8072;
+    outline: none;
+} */
