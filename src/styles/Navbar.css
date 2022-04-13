@@ -12,7 +12,9 @@
 }
 
 .navbar-logo {
-  margin-left: 3%;
+  /* margin-left: 3%; */
+  margin-top:10px;
+  margin-bottom:10px;
 
 }
 
@@ -22,7 +24,8 @@
 }
 
 .nav-left {
-  color: black;
+  font-size:20px;
+  color: #2E2E2E;
   margin-left: 5%;
   text-decoration: none;
 }
@@ -35,20 +38,23 @@
 }
 
 .nav-right{
+  font-size:20px;
   margin-right: 5%;
   text-decoration: none;
 }
 
 #logo-link{
-  width: 100px;
-  height: 90px;
+  width: 140px;
+  height: 60px;
 }
 
 #signin{
+  font-size:20px;
   color: rgba(248, 182, 150, 0.98);
 }
 
 #signup{
+  font-size:20px;
   color: rgba(244, 131, 102, 0.98);
 }
 

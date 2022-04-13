@@ -8,7 +8,7 @@ function Navbar() {
     <div>
       <header>
         <div className="navbar">
-          <span className="navbar-logo"><Link to="/"><img src="./bpLink.png" id="logo-link" alt="image error"/></Link></span>
+          <span className="navbar-logo"><Link to="/"><img src="./logo1.png" id="logo-link" alt="image error"/></Link></span>
           <div className="navi-one">
             <Link to="analyzetype" className="nav-left">
               면접 연습하기
