@@ -1,0 +1,57 @@
+.navbar {
+  width: 92%;
+  height: 100px;
+  position: fixed;
+  display: flex;
+  /*justify-content: space-between;*/
+  align-items: center;
+  font-weight: bold;
+  border-bottom: 3px solid #9FB4FF;
+  margin-left:4%;
+  background-color: white;
+}
+
+.navbar-logo {
+  margin-left: 3%;
+
+}
+
+.navi-one {
+  width: 50%;
+  display: flex;
+}
+
+.nav-left {
+  color: black;
+  margin-left: 5%;
+  text-decoration: none;
+}
+
+.navi-two {
+  margin-right: 3%;
+  width: 50%;
+  flex:auto;
+  text-align: right;
+}
+
+.nav-right{
+  margin-right: 5%;
+  text-decoration: none;
+}
+
+#logo-link{
+  width: 100px;
+  height: 90px;
+}
+
+#signin{
+  color: rgba(248, 182, 150, 0.98);
+}
+
+#signup{
+  color: rgba(244, 131, 102, 0.98);
+}
+
+#under-line{
+  margin-top: 6.8%;
+}
