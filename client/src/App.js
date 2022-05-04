@@ -1,13 +1,14 @@
-//import logo from './logo.svg';
 import './App.css';
+
 import Navbar from './components/Navbar.js';
 import Footer from './components/Footer.js';
+
 import AnalyzeType from './pages/AnalyzeType.js';
 import Home from './pages/Home.js';
 import SignInPage from './pages/SignIn';
 import SignUpPage from './pages/SignUp';
-import {BrowserRouter, Route, Routes, Navigate, Outlet} from 'react-router-dom';
 
+import {BrowserRouter, Route, Routes, Navigate, Outlet} from 'react-router-dom';
 
 function App() {
   return (
