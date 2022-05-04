@@ -2,8 +2,6 @@ import {Link} from 'react-router-dom';
 import '../styles/Navbar.css';
 
 function Navbar() {
-
-
   return (
     <div>
       <header>
@@ -13,7 +11,10 @@ function Navbar() {
             <Link to="analyzetype" className="nav-left">
               면접 연습하기
             </Link>
-            <Link to="" className="nav-left">
+            <Link to="question" className="nav-left">
+              면접 질문 리스트
+            </Link>
+            <Link to="result" className="nav-left">
               면접 분석 결과
              </Link>
           </div>

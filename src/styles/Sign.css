@@ -1,5 +1,14 @@
+.SignUp{
+    width:92%;
+    /* height:90vh; */
+    display:flex;
+    /* padding-top: 100px; */
+    margin:0% 4% 4% 4%;
+}
+
 .SignForm {
-    width: 100%;
+    width: 50%;
+    margin: 0 auto;
     display: flex;
     background: white;
     justify-content: center;
@@ -21,6 +30,7 @@
 .SignContent{
     padding-top:20px;
     width: 500px;
+    font-weight: 500;
 }
 
 .SignForm input {
