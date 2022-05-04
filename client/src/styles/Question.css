@@ -1,0 +1,126 @@
+.Question{
+    width:92%;
+    display:flex;
+    margin:0% 4% 4% 4%;
+}
+
+/* Home Page Container */
+.question__container {
+    width: 60%;
+    /* height:80%; */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding-top: 150px;
+  }
+
+/* Input Box */
+.inputbox {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .inputbox-input {
+    height:500px;
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid #f1f3f5;
+    padding: 10px;
+    height: 50px;
+    box-sizing: border-box;
+    font-size:15px;
+  }
+  .inputbox-input:focus {
+    outline: none;
+  }
+  .inputbox-submit-btn {
+    border: none;
+    border-radius: 10px;
+    background-color: #d0ebff;
+    color: #1c7ed6;
+    height: 50px;
+    width: 100px;
+    font-weight: bold;
+  }
+  
+  /* Question Item List */
+  .list {
+    background-color: #F7F7F7;
+    border-radius: 15px;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column; 
+  }
+  .list-title {
+    font-weight: bold;
+    padding:15px;
+    padding-bottom: 20px;
+    margin-top: 10px;
+    font-size: 20px;
+    border-bottom: 3px solid white;
+    margin-bottom: 0;
+  }
+  .list-ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    height: 800px;
+  }
+  
+  /* Question Item */
+  .item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    height: 40px;
+    border-bottom: 1px solid #F0F0F0; 
+  }
+  .item:last-child {
+    margin-bottom: 0;
+  }
+  .item-checkbox {
+    margin-right: 10px;
+  }
+  .item-edit-input {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid #f1f3f5;
+    padding: 5px;
+    font-size: 1em;
+    color:#f48366;
+    box-sizing: border-box;
+    background-color: inherit;
+    margin-left: 5px;
+  }
+  .item-edit-input:focus {
+    outline: none;
+  }
+  .item-ctx {
+    flex: 1;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  .item-ctx-checked {
+    font-style: italic;
+    text-decoration: line-through;
+    color: #868e96;
+  }
+
+  .item-edit-btn,
+  .item-delete-btn {
+    border: none;
+    border-radius: 0;
+    background-color: inherit;
+    margin-right: 10px;
+  }
+  .item-edit-btn:hover,
+  .item-delete-btn:hover {
+    cursor: pointer;
+    background-color: #d0ebff;
+    border-radius: 10px;
+   
+  }
+  .item-edit-btn {
+    margin-right: 3px;
+  } 
