@@ -35,7 +35,7 @@ function SignUpPage(){
         }
         let body={
             id :ID,
-            pw:Password,
+            password:Password,
             name:Name,
             nickname:Nickname,
             // sex:Sex,
@@ -45,7 +45,7 @@ function SignUpPage(){
         };
 
         axios
-        .post("http://localhost:5000/api/users/register",body)
+        .post("http://localhost:5000/auth/register",body)
         .them((res)=>console.log(res));
 
         // dispatch(registerUser(body)).then((response)=>{
