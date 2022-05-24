@@ -22,7 +22,7 @@ const AudioRecord = () => {
         };
 
         axios
-        .post("http://localhost:5000/api/data/stt",body)
+        .post("http://localhost:5000/data/stt",body)
         .then((res)=>console.log(res));
         // });
     };

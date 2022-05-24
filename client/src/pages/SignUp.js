@@ -31,11 +31,11 @@ function SignUpPage(){
     const onSubmitHandler=(event)=>{
         event.preventDefault();
         if (Password!==ConfirmPassword){
-            return alert('비밀번호가 일치하지 않습니다.');
+            alert('비밀번호가 일치하지 않습니다.');
         }
         let body={
             id :ID,
-            pw:Password,
+            password:Password,
             name:Name,
             nickname:Nickname,
             // sex:Sex,
@@ -45,16 +45,18 @@ function SignUpPage(){
         };
 
         axios
-        .post("http://localhost:5000/api/users/register",body)
-        .them((res)=>console.log(res));
-
-        // dispatch(registerUser(body)).then((response)=>{
-        //     if(response.payload.success){
-        //         props.history.push('/');
-        //     } else{
-        //         alert('회원가입에 실패하였습니다.');
-        //     }
-        // });
+        .post("http://localhost:5000/auth/register",body)
+        .then((res) =>{
+            if (res.data.success === false){
+                alert("회원가입에 실패하였습니다.");
+            }
+            if (res.data.success === true){
+                alert("회원가입에 성공하였습니다.");
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+        })
     };
 
     return(
