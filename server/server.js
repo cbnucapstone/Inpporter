@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const cors = require("cors");
 
+const spawn = require('child_process').spawn
+
 // [CONFIGURE APP TO USE bodyParser and cors]
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -34,6 +36,18 @@ app.post("/api/users/register",(req,res)=>{
         return console.log(`success ${user}`);
     })
 });
+
+// 05.21 이강
+app.post("/api/data/stt", (req, res) => {
+    //VoiceRecord.js에서 버튼 클릭시 sttTry.py을 실행
+
+   const net = spawn('python',['sttTry.py']);
+   net.stdout.on('data', function(data) {
+           console.log(data.toString());
+           })
+   return console.log(req.body); // 버튼 클릭했을 때 서버 연동 잘 됐나 보려고,, 호출 시 { server : 'HI' } 전달 해서 프린트
+});
+//
 
 app.get("/api/user/registerread",(req,res)=>{
     User.find();

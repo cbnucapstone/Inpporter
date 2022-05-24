@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from "react";
 import '../styles/VoiceRecord.css';
+import axios from "axios";
+
 
 const AudioRecord = () => {
   const [stream, setStream] = useState();
@@ -13,6 +15,18 @@ const AudioRecord = () => {
   const [source, setSource] = useState();
   const [analyser, setAnalyser] = useState();
   const [audioUrl, setAudioUrl] = useState();
+
+ const onServerHandler=(event)=>{
+        let body={
+            server :"HI",
+        };
+
+        axios
+        .post("http://localhost:5000/api/data/stt",body)
+        .then((res)=>console.log(res));
+        // });
+    };
+
 
   const onRecAudio = () => {
     setRecBtn("녹음 중지");
@@ -160,6 +174,7 @@ const TestOverlay = () => {
                   <button id="videoPlayBtn" onClick={startOrStop}>{playing ? '화면 중지' : '화면 시작'}</button>
                   <button id="audioRecBtn" onClick={onRec ? onRecAudio : offRecAudio}>{recBtn}</button>
                   <button id="checkResultBtn" onClick={onSubmitAudioFile}>결과 확인</button>
+                  <button id="" onClick={onServerHandler}> HI</button>
                 </div>
 
       </div>
