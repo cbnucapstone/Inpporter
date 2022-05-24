@@ -11,7 +11,7 @@ import Question from './pages/Question';
 import Result from './pages/Result';
 import VoiceRecord from './pages/VoiceRecord';
 
-import {BrowserRouter, Route, Routes, Navigate, Outlet} from 'react-router-dom';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
 function App() {
   return (

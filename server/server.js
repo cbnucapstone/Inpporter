@@ -27,7 +27,3 @@ app.listen(port,()=>console.log(`Listening on port ${port}`));
 mongoose.connect('mongodb+srv://eunjeong:dmswjd1225@inpporter.eurev.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
 .then(()=>console.log('MongoDB Connted...'))
 .catch(err=>console.log(err))
-
-// app.get("/api/user/registerread",(req,res)=>{
-//     User.find();
-// })

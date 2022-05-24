@@ -3,8 +3,9 @@ import '../styles/Sign.css';
 import React, {useState} from "react";
 import axios from "axios";
 
+const SignInPage = ({history}) => {
 
-const SignInPage = ( { history } ) => {
+    //const {from} = history.state||{from:'/'}
 
     const [ID,setID] = useState('');
     const [Password,setPassword] = useState('');
@@ -13,13 +14,30 @@ const SignInPage = ( { history } ) => {
     const onPasswordHandler = (event) =>{ setPassword(event.currentTarget.value);};
 
     const onSubmitHandler = (event) =>{
+        event.preventDefault();
         let body = {
             id:ID,
             pw:Password,
         };
         axios
         .post("http://localhost:5000/auth/login",body)
-        .them((res)=>console.log(res))
+        .then((res) =>{
+            if (res.data.success === false){
+                if (res.data.msg==="id not find"){
+                    alert("해당하는 ID가 존재하지 않습니다.");
+                }
+                if (res.data.msg==="pw not correct"){
+                    alert("비밀번호가 일치하지 않습니다.");
+                }
+            }
+            if (res.data.success === true){
+                alert("로그인에 성공하였습니다.");
+                console.log(res.data);
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+        })
     };
 
     return(

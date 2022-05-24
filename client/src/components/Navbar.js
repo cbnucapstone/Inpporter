@@ -1,7 +1,15 @@
+import axios from 'axios';
 import {Link} from 'react-router-dom';
 import '../styles/Navbar.css';
 
 function Navbar() {
+
+  axios
+  .get("http://localhost:5000/auth")
+  .then((res) =>{
+    console.log(res)
+  })
+
   return (
     <div>
       <header>
