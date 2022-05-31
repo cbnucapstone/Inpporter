@@ -1,15 +1,19 @@
 import React, { useRef, useState } from "react";
 import PropTypes from "prop-types"; //npm install -save prop-types!!!
-import { set } from "mongoose";
+import axios from "axios";
 
 const InputBox = ({ questionList, setQuestionList }) => {
+
   //부모로부터 props로 두개 받아오기
+  const selectList = ["역량", "지원동기", "직무", "기초인성"];
   const [text, setText] = useState("");
+  const [selected, setSelected] = useState("역량");
   const inputRef = useRef(null); //useref Hook으로 ref생성
+
   //input값 가져오기
-  const onChangeInput = (e) => {
-    setText(e.target.value);
-  };
+  const onChangeInput = (e) => {setText(e.currentTarget.value);};
+  const onSelectBox = (e) => {setSelected(e.target.value);};
+
 
   const onPressSubmitBtn = (e) => {
     //버튼 눌렀을 때 실행되는 부분
@@ -19,6 +23,18 @@ const InputBox = ({ questionList, setQuestionList }) => {
       alert("추가할 질문을 입력하세요");
       return false;
     } else {
+      let body={
+        userid:"1",
+        text:text,
+        selected:selected,
+      };
+      axios
+      .post("http://localhost:5001/question/write",body)
+      .then((res)=>{
+        console.log(res);
+        
+      })
+
       //질문리스트에 값 추가
       const nextQuestionList = questionList.concat({
         //input으로 받은 값을 setQuestionList()로 questionList에 추가
@@ -26,6 +42,7 @@ const InputBox = ({ questionList, setQuestionList }) => {
         text, //각 question item 내용
         deleted: false,
       });
+
       setQuestionList(nextQuestionList);
       //input값 초기화 및 포커싱
       setText("");
@@ -37,6 +54,15 @@ const InputBox = ({ questionList, setQuestionList }) => {
     <div className="inputbox">
       <form onSubmit={onPressSubmitBtn} className="inputbox">
         {/* Item 내용 입력하는 input */}
+        {/* 질문 카테고리 입력 */}
+        <select className="selectbox" onChange={onSelectBox} value={selected}>
+          {selectList.map((item)=>(
+            <option value={item} key={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+        {/* 질문 입력창 */}
         <input
           type="text"
           name="questionItem"

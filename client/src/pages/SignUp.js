@@ -48,7 +48,7 @@ function SignUpPage(){
         };
 
         axios
-        .post("http://localhost:5000/auth/register",body)
+        .post("http://localhost:5001/auth/register",body)
         .then((res) =>{
             if (res.data.success === false){
                 alert("회원가입에 실패하였습니다.");

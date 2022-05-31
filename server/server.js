@@ -18,7 +18,7 @@ app.use(cors({
 app.use(router);
 
 // [CONFIGURE SERVER PORT]
-const port = process.env.PORT||5000;
+const port = process.env.PORT||5001;
 
 // [RUN SERVER]
 app.listen(port,()=>console.log(`Listening on port ${port}`));
