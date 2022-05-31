@@ -12,6 +12,7 @@ function Navbar() {
 
   const clickLogout = () => {
     store.dispatch({type:"logout"});
+    alert("로그아웃 되었습니다.");
   }
   
   const first = (

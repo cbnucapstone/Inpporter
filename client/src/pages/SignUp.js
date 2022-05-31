@@ -55,7 +55,7 @@ function SignUpPage(){
             }
             if (res.data.success === true){
                 alert("회원가입에 성공하였습니다.");
-                from('signin');
+                from('/signin');
             }
         })
         .catch(err=>{
