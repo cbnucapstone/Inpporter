@@ -22,6 +22,10 @@
   flex-direction: column;    
 }
 
+.sxsx{
+  display: none;
+}
+
 .cateheader{
   font-weight: bold;
   padding: 15px;
