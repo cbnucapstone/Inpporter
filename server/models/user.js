@@ -28,12 +28,12 @@ const userSchema = mongoose.Schema({
     //     type:Number,
     //     default:0,
     // },
-    token:{
-        type:String,
-    },
-    tokenExp:{
-        type:Number,
-    },
+    // token:{
+    //     type:String,
+    // },
+    // tokenExp:{
+    //     type:Number,
+    // },
 });
 
 // 비밀번호 암호화
@@ -67,30 +67,30 @@ userSchema.methods.comparePassword = function(plainpassword){
 };
 
 // 토큰 생성
-userSchema.methods.generateToken = function(){
-    // let user = this;
-    // jwt.sign(변환할 토큰 이름, "임의로 지정한 복호화를 위한 변수")
-    const token = jwt.sign(this._id.toHexString(),"secretToken");
-    this.token = token;
-    return this.save()
-        .then((user)=>user)
-        .catch((err)=>err);
-};
+// userSchema.methods.generateToken = function(){
+//     // let user = this;
+//     // jwt.sign(변환할 토큰 이름, "임의로 지정한 복호화를 위한 변수")
+//     const token = jwt.sign(this._id.toHexString(),"secretToken");
+//     this.token = token;
+//     return this.save()
+//         .then((user)=>user)
+//         .catch((err)=>err);
+// };
 
 // token을 이용해 유저 검색
-userSchema.statics.findByToken = function(token){
-    let user = this;
-    // secretToken을 통해 user의 id값을 받아오고 해당 아이디를 통해
-    // DB에 접근해서 유저의 정보를 가져온다
+// userSchema.statics.findByToken = function(token){
+//     let user = this;
+//     // secretToken을 통해 user의 id값을 받아오고 해당 아이디를 통해
+//     // DB에 접근해서 유저의 정보를 가져온다
 
-    // jwt.verify(토큰,"지정해둔특정문자")
-    return jwt.verify(token,"secretToken",function(err,decoded){
-        return user
-        .findOne({_id:decoded,token:token})
-        .then((user)=>user)
-        .catch((err)=>err);
-    });
-};
+//     // jwt.verify(토큰,"지정해둔특정문자")
+//     return jwt.verify(token,"secretToken",function(err,decoded){
+//         return user
+//         .findOne({_id:decoded,token:token})
+//         .then((user)=>user)
+//         .catch((err)=>err);
+//     });
+// };
 
 // User이라는 모델 객체 생성
 const User = mongoose.model('User',userSchema)

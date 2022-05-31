@@ -1,12 +1,14 @@
 import '../styles/Sign.css';
 
+import {useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import axios from "axios";
 
+import store from "../redux/store";
+
 const SignInPage = ({history}) => {
 
-    //const {from} = history.state||{from:'/'}
-
+    let from = useNavigate();
     const [ID,setID] = useState('');
     const [Password,setPassword] = useState('');
 
@@ -33,6 +35,8 @@ const SignInPage = ({history}) => {
             if (res.data.success === true){
                 alert("로그인에 성공하였습니다.");
                 console.log(res.data);
+                store.dispatch({type:"login"})
+                from('/');
             }
         })
         .catch(err=>{
