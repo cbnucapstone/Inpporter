@@ -1,14 +1,37 @@
-import axios from 'axios';
 import {Link} from 'react-router-dom';
 import '../styles/Navbar.css';
 
+import store from "../redux/store";
+import { useEffect } from 'react';
+import {useSelector} from 'react-redux';
+
 function Navbar() {
 
-  axios
-  .get("http://localhost:5000/auth")
-  .then((res) =>{
-    console.log(res)
-  })
+  const login = useSelector(state=>state.login);
+  useEffect(()=>{store.dispatch({type:"logout"})},[]);
+
+  const clickLogout = () => {
+    store.dispatch({type:"logout"});
+  }
+  
+  const first = (
+    <div className="navi-two">
+    <Link to="signin" className="nav-right" id="signin">
+      Sign In
+    </Link>
+    <Link to="signup" className="nav-right" id="signup">
+      Sign Up
+    </Link>
+  </div>
+  )
+
+  const second = (
+    <div className="navi-two">
+    <h2 style={{cursor:"pointer"}} className="nav-right" id="signin" onClick={()=> {clickLogout()}}>
+      Logout
+    </h2>
+  </div>
+  )
 
   return (
     <div>
@@ -26,14 +49,7 @@ function Navbar() {
               면접 분석 결과
              </Link>
           </div>
-          <div className="navi-two">
-            <Link to="signin" className="nav-right" id="signin">
-              Sign In
-            </Link>
-            <Link to="signup" className="nav-right" id="signup">
-              Sign Up
-            </Link>
-          </div>
+          {login?second:first}
         </div>
       </header>
     </div>

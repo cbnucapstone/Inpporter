@@ -1,5 +1,6 @@
 import '../styles/Sign.css';
 
+import { useNavigate } from 'react-router-dom';
 import React, {useState} from "react";
 import axios from "axios";
 
@@ -7,6 +8,7 @@ function SignUpPage(){
 
     // const sexlist = ["여자","남자"];
     // const rolelist = ["컴퓨터","뭐뭐","몰라"]
+    let from = useNavigate();
 
     const [ID,setID] = useState('');
     const [Password,setPassword] = useState('');
@@ -41,6 +43,7 @@ function SignUpPage(){
             // sex:Sex,
             email:Email,
             phone:Phone,
+            login:false,
             // role:Role,
         };
 
@@ -52,6 +55,7 @@ function SignUpPage(){
             }
             if (res.data.success === true){
                 alert("회원가입에 성공하였습니다.");
+                from('signin');
             }
         })
         .catch(err=>{
