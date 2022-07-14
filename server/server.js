@@ -9,7 +9,7 @@ const router = require("./routes");
 
 // [CONFIGURE APP TO USE bodyParser and cors]
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(cookieParser());
 app.use(cors({
     origin:true,
@@ -25,5 +25,5 @@ app.listen(port,()=>console.log(`Listening on port ${port}`));
 
 // [CONNECT MONGOOSE]
 mongoose.connect('mongodb+srv://eunjeong:dmswjd1225@inpporter.eurev.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
-.then(()=>console.log('MongoDB Connted...'))
+.then(()=>console.log('MongoDB Connected...'))
 .catch(err=>console.log(err))

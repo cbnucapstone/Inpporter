@@ -1,5 +1,20 @@
 const Question = require("../../models/question");
 
+//read(읽기)
+const get = (req, res, next) => {
+    Question.find(function(err,data){
+        try{
+            if (!data) return res.json({error:true});
+            res.json({list:data});
+            next();
+        }catch(err){
+            console.error(err);  
+            throw err;
+        }
+    });
+    console.log("되고있낭ㅇㅇ")
+};
+ 
 //write(작성)
 const write = async (req,res)=>{
     console.log(req.body)
@@ -7,8 +22,6 @@ const write = async (req,res)=>{
         const question = new Question(req.body);
         await question.save(); //save로 디비에 저장
         console.log("디비에 저장 성공!");
-        // console.table([{id:question._id,text:question.text,selected:question.selected}]);
-        // res.redirect("/question"); //localhost:3000/question으로 귀한 
     }catch(err){
         console.log("디비 저장 실패");
         res.redirect("/question");
@@ -17,32 +30,48 @@ const write = async (req,res)=>{
 
 //edit(편집)
 const edit = (req,res)=>{
-    const id = req.params.id; //파라미터로 받은 id를 id에 저장
-    Question.find({},null,(err,questions)=>{ //db에서 조회해서
-        res.render("QuestionItem",{Questions:questions,idQuestion:id}); //"QuestionItem에 id와 함께 보낸다"
-
-    });
-};
-
-//update(수정)
-const update = (req,res)=>{
-    const id = req.params.id;
-    Question.findByIdAndUpdate(id,{text:req.body.text},err => { //해당 id값의 text를 변경
+    console.log("백단 에딧 들어옴")
+    const updateQ = Question.findById(req.params.id,(err,data)=>{ //db에서 조회해서
         if(err){
-            console.log("수정실패ㅜㅜ");
-            console.error(err);
+            console.log("수정할 질문 ID 찾기 실패");
+            console.error(err);            
+        }else{
+            res.json(data)
+            console.log("수정할 ID 찾기 성공")         
         }
-        console.log("수정 성굥!");
-        console.log("id:"+id+"\nchanged text:" + req.body.text);
-        res.redirect("/question");
-
+        
     });
 };
 
+//update(수정) 
+const update = async (req,res) => {
+    console.log("백단업뎃들어옴");
+    console.log(req.body);
+    console.log(req.body.id);
+    try{
+        const _id = req.body.id;
+        const text = req.body.text;
+        await Question.findByIdAndUpdate({_id},{$set:{_id, text}});
+    } catch(err){
+        console.log("실패패패퍂")
+    }
+};
 
+//삭제
+const Delete = (req, res) => {
+    Question.findByIdAndRemove({ _id : req.params.id }, (err)=> {
+        if(err){
+            console.log("ㅈ됨")
+        }
+        console.log("삭제 성공!")
+        res.status(204).end();
+    });
+};
 
 module.exports ={
+    get,
     write,
     edit,
     update,
+    Delete
 };

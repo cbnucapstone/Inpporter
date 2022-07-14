@@ -26,6 +26,10 @@
   display: none;
 }
 
+#editnone{
+  display:none;
+}
+
 .cateheader{
   font-weight: bold;
   padding: 15px;
@@ -62,17 +66,6 @@
   font-weight: bold;
   font-size: 18px;
 }
-
-/* #cate1 {
-}
-#cate2 {
-}
-#cate3 {
-}
-#cate4 {
-}
-#cate5 {
-} */
 
 /* Input Box */
 .inputbox {
@@ -154,6 +147,7 @@
 }
 
 .item-edit-input {
+  width:100%;
   flex: 1;
   border: none;
   border-bottom: 1px solid #f1f3f5;

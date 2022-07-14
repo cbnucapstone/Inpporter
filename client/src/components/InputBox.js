@@ -1,9 +1,8 @@
 import React, { useRef, useState } from "react";
-import PropTypes from "prop-types"; //npm install -save prop-types!!!
+//import PropTypes from "prop-types"; //npm install -save prop-types!!!
 import axios from "axios";
 
-const InputBox = ({ questionList, setQuestionList }) => {
-
+const InputBox = () => {
   //부모로부터 props로 두개 받아오기
   const selectList = ["역량", "지원동기", "직무", "기초인성"];
   const [text, setText] = useState("");
@@ -11,7 +10,7 @@ const InputBox = ({ questionList, setQuestionList }) => {
   const inputRef = useRef(null); //useref Hook으로 ref생성
 
   //input값 가져오기
-  const onChangeInput = (e) => {setText(e.currentTarget.value);};
+  const onChangeInput = (e) => {setText(e.target.value);};
   const onSelectBox = (e) => {setSelected(e.target.value);};
 
 
@@ -31,23 +30,12 @@ const InputBox = ({ questionList, setQuestionList }) => {
       axios
       .post("http://localhost:5001/question/write",body)
       .then((res)=>{
-        console.log(res);
-        
+        console.log(res);        
       })
-
-      //질문리스트에 값 추가
-      const nextQuestionList = questionList.concat({
-        //input으로 받은 값을 setQuestionList()로 questionList에 추가
-        id: questionList.length, //각 question item마다 id라는 식별자를 추가
-        text, //각 question item 내용
-        deleted: false,
-      });
-
-      setQuestionList(nextQuestionList);
-      //input값 초기화 및 포커싱
       setText("");
       inputRef.current.focus();
     }
+    window.location.reload();
   };
 
   return (
@@ -79,19 +67,6 @@ const InputBox = ({ questionList, setQuestionList }) => {
       </form>
     </div>
   );
-};
-
-//props 값 검증
-InputBox.propTypes = {
-  questionList: PropTypes.arrayOf(
-    //props의 타입을 배열로 강제.
-    PropTypes.shape({
-      //리스트의 원소는 객체여야 한다는 정의
-      id: PropTypes.number.isRequired, //id는 숫자여야함
-      text: PropTypes.string.isRequired, //text는 문자열
-    }).isRequired
-  ),
-  setQuestionList: PropTypes.func.isRequired, //setquestionList는 함수
 };
 
 export default InputBox;
