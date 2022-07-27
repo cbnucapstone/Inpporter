@@ -9,7 +9,7 @@ import SignInPage from './pages/SignIn';
 import SignUpPage from './pages/SignUp';
 import Question from './pages/Question';
 import Result from './pages/Result';
-import VoiceRecord from './pages/VoiceRecord';
+import Dictaphone from './pages/VoiceRecord';
 
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
@@ -25,7 +25,7 @@ function App() {
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/question" element={<Question />} />
       <Route path="/result" element={<Result />} />
-      <Route path="/voicerecord" element={<VoiceRecord />} />
+      <Route path="/voicerecord" element={<Dictaphone />} />
     </Routes>
     <Footer/>
   </BrowserRouter>

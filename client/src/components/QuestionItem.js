@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-//import PropTypes from "prop-types";
 import { FcOk, FcSettings, FcFullTrash } from "react-icons/fc";
 import axios from "axios";
 import $ from "jquery";
@@ -35,6 +34,12 @@ const QuestionItem = ({ questionItem }) => {
     console.log(body);
   };
 
+  // const onEnter = (e) => {
+  //   if (e.key === "Enter") {
+  //     onChangeEditInput();
+  //   }
+  // };
+
   //수정된 input값 가져오기
   const onChangeEditInput = (e) => {
     setNewText(e.target.value);
@@ -44,7 +49,7 @@ const QuestionItem = ({ questionItem }) => {
   const onClickSubmitBtn = (e) => {
     console.log(e);
     let body = {
-      id:e,
+      id: e,
       text: newText,
     };
     console.log(newText);
@@ -58,6 +63,7 @@ const QuestionItem = ({ questionItem }) => {
         console.log("수정실패");
       });
     setEdited(false);
+
     window.location.reload();
   };
 
@@ -67,23 +73,23 @@ const QuestionItem = ({ questionItem }) => {
         //item 내용
         edited ? (
           <div className="item-edit-input">
-          <input
-            type="text"
-            className="item-edit-input"
-            value={newText}
-            ref={editInputRef}
-            onChange={onChangeEditInput}
-            
-          />
-          <div id="editnone" > 
-            <span className={`item-ctx`}>
-              {questionItem.text}
-              <span id={questionItem._id} className="sxsx">
-                {questionItem._id}
+            <input
+              type="text"
+              className="item-edit-input"
+              value={newText}
+              ref={editInputRef}
+              onChange={onChangeEditInput}
+              //onKeyPress={onEnter}
+            />
+            <div id="editnone">
+              <span className={`item-ctx`}>
+                {questionItem.text}
+                <span id={questionItem._id} className="sxsx">
+                  {questionItem._id}
+                </span>
               </span>
-            </span>
+            </div>
           </div>
-        </div>
         ) : (
           <span className={`item-ctx`}>
             {questionItem.text}

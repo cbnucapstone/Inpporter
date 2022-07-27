@@ -1,13 +1,7 @@
 import React from "react";
-//import PropTypes from "prop-types";
 import QuestionItem from "./QuestionItem";
 
-const QuestionItemList = ({
-  title,
-  questionList,
-  //setQuestionList,
-  listdata,
-}) => {
+const QuestionItemList = ({ title, questionList, listdata }) => {
   console.log(listdata);
   return (
     <div className="list">
@@ -21,10 +15,7 @@ const QuestionItemList = ({
             .map((questionItem) => {
               return (
                 //map을 이용하여 QuestionItem 출력
-                <QuestionItem
-                  questionItem={questionItem}
-                  listdata={listdata}
-                />
+                <QuestionItem questionItem={questionItem} listdata={listdata} />
               );
             })}
       </ul>
