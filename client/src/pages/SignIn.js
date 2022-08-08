@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import React, {useState} from "react";
 import axios from "axios";
 
-import store from "../redux/store";
+import {store} from "../reducer/store";
 
 const SignInPage = ({history}) => {
 
@@ -35,7 +35,8 @@ const SignInPage = ({history}) => {
             if (res.data.success === true){
                 alert("로그인에 성공하였습니다.");
                 console.log(res.data);
-                store.dispatch({type:"login"})
+                console.log(res.data.userId);
+                store.dispatch({type:"login",id:res.data.userId});
                 from('/');
             }
         })

@@ -4,7 +4,7 @@ import QuestionItemList from "../components/QuestionItemList";
 import axios from "axios";
 import "../styles/Question.css";
 
-import store from "../redux/store";
+import {store} from "../reducer/store";
 import {useSelector} from 'react-redux';
 
 import {
@@ -16,9 +16,9 @@ import {
 } from "react-icons/fc";
 
 const Question = () => {
-  const userid = useSelector(state=>state.id); //userid 받아쓰기 나즁에 수졍
+  const userid = useSelector(state=>state.User.id); //userid 받아쓰기 나즁에 수졍
   console.log("받아진다아이딧")
-  console.log(userid);
+  console.log("userid : "+userid);
   const [questionList,setQuestionList] = useState([]); //useState 훅을 사용하여 item을 담을 리스트와 setter함수 생성
   
   useEffect(()=> {

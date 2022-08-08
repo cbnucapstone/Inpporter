@@ -1,14 +1,14 @@
 import {Link} from 'react-router-dom';
 import '../styles/Navbar.css';
 
-import store from "../redux/store";
+import {store} from "../reducer/store";
 import { useEffect } from 'react';
 import {useSelector} from 'react-redux';
 
 function Navbar() {
 
-  const login = useSelector(state=>state.login);
-  useEffect(()=>{store.dispatch({type:"logout"})},[]);
+  const login = useSelector(state=>state.User.login);
+  console.log(login);
 
   const clickLogout = () => {
     store.dispatch({type:"logout"});
