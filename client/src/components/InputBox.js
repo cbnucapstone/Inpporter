@@ -40,7 +40,7 @@ const InputBox = () => {
       setText("");
       inputRef.current.focus();
     }
-    window.location.reload();
+    //window.location.reload();
   };
 
   return (
