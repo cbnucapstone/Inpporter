@@ -2,7 +2,7 @@ const Question = require("../../models/question");
 
 //read(읽기)
 const get = (req, res, next) => {
-    Question.find(function(err,data){
+    Question.find({userid:req.params.userid},function(err,data){
         try{
             if (!data) return res.json({error:true});
             res.json({list:data});
@@ -13,6 +13,25 @@ const get = (req, res, next) => {
         }
     });
     console.log("되고있낭ㅇㅇ")
+};
+
+const getSelected = (req, res, next) =>{
+    console.log("백단 카테고리 들어옴")
+    console.log(req.params.selected)
+    Question.find({userid:req.params.userid, selected : req.params.selected}, 
+        function(err, data){
+            try{
+                if (!data) return res.json({error:true});
+                res.json({list:data});
+                next();
+            }catch(err){
+                console.error(err);  
+                throw err;
+            }
+
+    });
+    console.log("카테고리별로 띄우기 성공")
+
 };
  
 //write(작성)
@@ -70,6 +89,7 @@ const Delete = (req, res) => {
 
 module.exports ={
     get,
+    getSelected,
     write,
     edit,
     update,
