@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 //import PropTypes from "prop-types"; //npm install -save prop-types!!!
 import axios from "axios";
+import {useSelector} from 'react-redux';
 
 const InputBox = () => {
   //부모로부터 props로 두개 받아오기
@@ -8,6 +9,10 @@ const InputBox = () => {
   const [text, setText] = useState("");
   const [selected, setSelected] = useState("역량");
   const inputRef = useRef(null); //useref Hook으로 ref생성
+
+  const userid = useSelector(state=>state.User.id); //userid 받아쓰기 나즁에 수졍
+  console.log("받아진다아이딧")
+  console.log("userid : "+userid);
 
   //input값 가져오기
   const onChangeInput = (e) => {setText(e.target.value);};
@@ -23,7 +28,7 @@ const InputBox = () => {
       return false;
     } else {
       let body={
-        userid:"1",
+        userid:userid,
         text:text,
         selected:selected,
       };
