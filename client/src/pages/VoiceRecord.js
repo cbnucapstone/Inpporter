@@ -1,10 +1,17 @@
 import React, { useState, useEffect, Component } from "react";
+import {Link, useNavigate} from 'react-router-dom';
 import PropTypes from "prop-types";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import ReactWordcloud from 'react-wordcloud';
 import '../styles/VoiceRecord.css';
 import axios from "axios";
 
+const words = [
+]
+
 const AudioRecord = () => {
+
+  const navigate = useNavigate();
   const [onVideo, setOnVideo] = useState(true);
   const [playing, setPlaying] = useState(true);
   const [videoBtn, setVideoBtn] = useState("화면 보기");
@@ -16,6 +23,9 @@ const AudioRecord = () => {
       resetTranscript,
       browserSupportsSpeechRecognition
     } = useSpeechRecognition();
+
+  const a = transcript.split(" ");
+  const [name, setName] = useState();
 
 const getWebcam = (callback) => {
   try {
@@ -57,6 +67,24 @@ const TestOverlay = () => {
 
   const checkResult = () =>{
   console.log(transcript);
+  for(let i=0; i<a.length; i++){
+    words.push({text: a[i], value: i});
+    }
+    setName("hi");
+
+    if (playing) {
+
+      const s = videoRef.current.srcObject;
+      s.getTracks().forEach((track) => {
+      setPlaying(false);
+        track.stop();
+      });
+    }
+    navigate('/result', {
+            state: {
+            word: words
+            }
+          });
   }
 
   const startOrStop = () => {
