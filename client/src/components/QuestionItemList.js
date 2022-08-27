@@ -1,4 +1,5 @@
 import React from "react";
+// import {VirtualizedList as List} from "./VirtualListClass";
 import QuestionItem from "./QuestionItem";
 
 const QuestionItemList = ({ title, questionList, listdata }) => {
@@ -14,6 +15,7 @@ const QuestionItemList = ({ title, questionList, listdata }) => {
             .reverse()
             .map((questionItem) => {
               return (
+                // <List QuestionItem />
                 //map을 이용하여 QuestionItem 출력
                 <QuestionItem questionItem={questionItem} listdata={listdata} />
               );
