@@ -10,6 +10,7 @@ import SignUpPage from './pages/SignUp';
 import Question from './pages/Question';
 import Result from './pages/Result';
 import Dictaphone from './pages/VoiceRecord';
+import SelectQuestion from './pages/SelectQuestion';
 
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
@@ -26,6 +27,7 @@ function App() {
       <Route path="/question" element={<Question />} />
       <Route path="/result" element={<Result />} />
       <Route path="/voicerecord" element={<Dictaphone />} />
+      <Route path="/selectquestion" element={<SelectQuestion/>}/>
     </Routes>
     <Footer/>
   </BrowserRouter>
