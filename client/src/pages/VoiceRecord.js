@@ -7,7 +7,12 @@ import '../styles/VoiceRecord.css';
 import axios from "axios";
 
 const words = [
+{
+    text: 'hi',
+    value: 1,
+  },
 ]
+// 동작 여부를 보기 위해 값을 넣어놓음
 
 const AudioRecord = () => {
 
@@ -67,8 +72,30 @@ const TestOverlay = () => {
 
   const checkResult = () =>{
   console.log(transcript);
+  a[0] = "hi";
+  a[1] = "hello";
+  a[2] = "hi";
+  a[3] = "hi";
+  a[4] = "hi";
+  a[5] = "hi";
+  a[6] = "hi";
+  a[7] = "name";
+  a[8] = "name";
+  a[9] = "name";
+  a[10] = "is";
+  a[11] = "is";
+
+  //동작 여부를 보기 위해 값을 넣어놓음
+
   for(let i=0; i<a.length; i++){
-    words.push({text: a[i], value: i});
+  if(words.findIndex(v=>v.text === a[i]) !== -1){
+    console.log(words.findIndex(v=>v.text === a[i]));
+    words[words.findIndex(v=>v.text === a[i])].value++;
+  }
+
+  else{
+    words.push({text: a[i], value: 1});
+       }
     }
     setName("hi");
 
