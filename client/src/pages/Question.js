@@ -45,8 +45,6 @@ const Question = () => {
         }
     }
 
-    
-
     onClick0 = async () => {
       setBtnActive("0")
       setSelected("전체")
@@ -142,7 +140,6 @@ const Question = () => {
         <QuestionItemList //QuestionItemList component 불러오기
           title={"면접 질문 리스트"}
           questionList={questionList}
-          setQuestionList={setQuestionList}
         />
       </div>
     </div>
