@@ -8,6 +8,7 @@ import axios from "axios";
 
 const words = [
 ]
+// 동작 여부를 보기 위해 값을 넣어놓음
 
 const AudioRecord = () => {
 
@@ -67,8 +68,19 @@ const TestOverlay = () => {
 
   const checkResult = () =>{
   console.log(transcript);
+
+
+  //동작 여부를 보기 위해 값을 넣어놓음
+
   for(let i=0; i<a.length; i++){
-    words.push({text: a[i], value: i});
+  if(words.findIndex(v=>v.text === a[i]) !== -1){
+    console.log(words.findIndex(v=>v.text === a[i]));
+    words[words.findIndex(v=>v.text === a[i])].value++;
+  }
+
+  else{
+    words.push({text: a[i], value: 1});
+       }
     }
     setName("hi");
 
