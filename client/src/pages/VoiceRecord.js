@@ -68,7 +68,7 @@ const TestOverlay = () => {
 
   const checkResult = () =>{
   console.log(transcript);
-
+  words.push({text: "hi", value: 1});
 
   //동작 여부를 보기 위해 값을 넣어놓음
 
