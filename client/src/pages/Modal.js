@@ -1,23 +1,21 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import '../styles/modal.css';
 import styled from 'styled-components';
-
-//ex
-const questionlist = [
-    { id: 0, data: '질문1' },
-    { id: 1, data: '질문2' },
-    { id: 2, data: '질문3' },
-    { id: 3, data: '질문4' },
-    { id: 4, data: '질문5' },
-    { id: 5, data: '질문6' },
-    { id: 6, data: '질문7' },
-    { id: 7, data: '질문8' },
-  ];
+import { useSelector } from "react-redux"; // useSelector
+import axios from "axios";
 
 const  Modal = (props) => {
+  // userid 가져오기
+  const userid = useSelector((state) => state.User.id);
+  // console.log('Modal Page user id : '+userid);
+
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
-  const [btnActive, setbtnActive] = useState("");
+  const [btnActive, setbtnActive] = useState("0");
+  const [selected, setSelected] = useState("0");
   const { open, close, header } = props;
+
+  // questionList
+  const [questionList, setQuestionList] = useState([]); 
 
   // onChange 함수를 사용해 이벤트 감지. 필요한 값 받아오기
   const [checkedList, setCheckedList] = useState([]);
@@ -44,6 +42,40 @@ const  Modal = (props) => {
     } 
   }
 
+  // 질문 리스트 받아오기
+  useEffect(() => {
+    const callApi = async () => {
+      if(selected==="전체"){
+        const res = await axios.get(
+          `http://localhost:5001/question/${userid}`,userid);
+        makeData(res.data.list);
+      }else{
+      const res = await axios.get(`http://localhost:5001/question/${userid}/${selected}`, userid, selected);
+      makeData(res.data.list);
+    }
+    };
+
+    const makeData = (items) => {
+      setQuestionList(items);
+    };
+    
+    callApi();
+  }, [selected]);
+
+  useEffect(()=>{
+    if(btnActive ==="0"){
+      setSelected("전체");
+    }else if(btnActive ==="1"){
+      setSelected("역량");
+    }else if(btnActive ==="2"){
+      setSelected("지원동기");
+    }else if(btnActive ==="3"){
+      setSelected("직무");
+    }else if(btnActive ==="4"){
+      setSelected("기초인성");
+    }
+  },[btnActive]);
+
   return (
     // 모달이 열릴때 openModal 클래스가 생성된다.
     <div className={open ? 'openModal modal' : 'modal'}>
@@ -64,19 +96,19 @@ const  Modal = (props) => {
                 <button className={"leftbutton"+("4"===btnActive?"active":"")} onClick={()=>setbtnActive("4")}>기초 인성</button>
             </div>
             <div className='right'>
-                {questionlist.map(item=>{
+                {questionList.map(item=>{
                     return (
-                        <div className="question_content" key = {item.id}>
-                            <StyledLabel key={item.id}>
+                        <div className="question_content" key = {item._id}>
+                            <StyledLabel key={item._id}>
                                 <StyledInput
                                 type="checkbox"
-                                value={item.data} 
+                                value={item.text} 
                                 // onChange 이벤트 발생시 check 여부와 value값 전달해 배열에 data 넣어줌
                                 onChange={e=>{onCheckedElement(e.target.checked, e.target.value);}}
                                 // 체크 표시 해제 시키는 로직, 배열에 data가 있으면 true, 없으면 false
-                                checked = {checkedList.includes(item.data)?true:false}
+                                checked = {checkedList.includes(item.text)?true:false}
                                 ></StyledInput>
-                                <StyledP>{item.data}</StyledP>
+                                <StyledP>{item.text}</StyledP>
                             </StyledLabel>
                         </div>
                     )

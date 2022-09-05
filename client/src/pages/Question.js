@@ -36,8 +36,7 @@ const Question = () => {
     callApi();
   }, []);
 
-  
-  class changeCate extends React.Component{
+    class changeCate extends React.Component{
     constructor() {
       super();
         this.state = {
@@ -89,6 +88,7 @@ const Question = () => {
       setQuestionList(items);
     };    
   }
+
 
   const category = new changeCate();
 
