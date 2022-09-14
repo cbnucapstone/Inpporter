@@ -13,6 +13,19 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
 // npm install @mui/lab @mui/material --force
 
+
+// react chartjs-2
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+
 // Video element 속성
 const Styles = {
   Canvas: {
@@ -42,6 +55,15 @@ const customTheme = createTheme({
 let words = [];
 let left_eye_list = [];
 let right_eye_list = [];
+// 표정 인식
+let angry = 0;
+let disgusted = 0;
+let fearful = 0;
+let happy = 0;
+let neutral = 0;
+let sad = 0;
+let surprised = 0;
+let sum = 0;
 
 const options = {
   //  colors: ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b"],
@@ -66,11 +88,30 @@ function Result() {
   const a = location.state.word;
   words = location.state.word;
 
+   // bar chart registar
+   ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+
+
   left_eye_list = location.state.left_eye;
   right_eye_list = location.state.right_eye;
 
   const Left_canvasRef = React.useRef(null);
   const Right_canvasRef = React.useRef(null);
+
+  angry = location.state.angryvalue;
+  happy = location.state.happyvalue;
+  disgusted = location.state.disgustedvalue;
+  neutral = location.state.neutralvalue;
+  sad = location.state.sadvalue;
+  surprised = location.state.surprisedvalue;
+  fearful = location.state.fearfulvalue;
 
   const [value, setValue] = React.useState("1");
 
@@ -150,6 +191,54 @@ function Result() {
     }
   };
 
+  // bar chart options
+  const barChartPptions = {
+    indexAxis: "y",
+    maintainAspectRatio: false, //그래프 비율 유지
+    responsive: true,
+    elements: {
+      bar: {
+        borderWidth: 2,
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: "표정인식결과",
+        // fontSize:30
+      },
+    },
+    scales: {
+      xAxis: {
+        scaleLabel: {
+          display: false,
+        },
+        ticks: {
+          display: false,
+        },
+        gridLines: {
+          display: false,
+        },
+      },
+    },
+  };
+
+  const barChartData = {
+    labels: ["분노", "행복", "혐오", "침착", "슬픔", "놀람", "긴장"],
+    datasets: [
+      {
+        data: [angry, happy, disgusted, neutral, sad, surprised, fearful],
+        label: "감정 지수",
+        borderColor: "#FF6869",
+        backgroundColor: "#FF6869",
+        // fill: true,
+      },
+    ],
+  };
+
   return (
     <div
       className="Result"
@@ -181,7 +270,7 @@ function Result() {
           </div>
           <div className="analyzeimage">
             <div id="interviewVideo"></div>
-            <div id="emotionGraph"></div>
+            <div id="emotionGraph">   <Bar options={barChartPptions}  data={barChartData} /></div>
           </div>
           <div className="Explanation">
             <p id="explanation-header">해석</p>

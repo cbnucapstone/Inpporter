@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "../styles/VoiceRecord.css";
@@ -14,6 +14,11 @@ import "@tensorflow/tfjs-backend-webgl";
 import * as blazeface from "@tensorflow-models/blazeface";
 import * as faceDetection from "@tensorflow-models/face-detection";
 
+// react face-api.js
+// import * as faceapi from "face-api.js"; 
+import * as faceapi from '@vladmandic/face-api';
+
+
 const words = [];
 
 // 홍채 인식
@@ -22,13 +27,23 @@ let detector;
 let left_eye_list = [];
 let right_eye_list = [];
 
+// 표정 인식
+let angry = 0;
+let disgusted = 0;
+let fearful = 0;
+let happy = 0;
+let neutral = 0;
+let sad = 0;
+let surprised = 0;
+let sum = 0;
+
 const AudioRecord = () => {
   const navigate = useNavigate();
   const [playing, setPlaying] = useState(true);
-  const [timer, setTimer] = React.useState(undefined);
+  const [timer, setTimer] = useState(undefined);
 
-  const videoRef = React.useRef(null);
-  const canvasRef = React.useRef(null);
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
 
   const {
     transcript,
@@ -59,9 +74,11 @@ const AudioRecord = () => {
     },
     None: { display: "none" },
   };
+  
 
   // 웹캠 띄우기
   const getWebcam = (callback) => {
+    videoRef && loadModels(); // 웹캠 출력 시 videoref 및 표정인식 모델 불러오기
     try {
       const constraints = {
         video: true,
@@ -73,11 +90,26 @@ const AudioRecord = () => {
     }
   };
 
+  // 표정 인식 모델 초기화
+  const loadModels = () => {
+    Promise.all([
+      faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
+      faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+      faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
+      faceapi.nets.faceExpressionNet.loadFromUri("/models"),
+    ]).then(() => {
+      // faceDetection();
+    });
+  };
+
   // 모델 초기화
   // 아래와 같은 useEffect 구문은 componentDidMount()와 같아서 단 최초 1회만 실행 됨
   React.useEffect(() => {
     const initFD = async () => {
       // tf.setBackend()와 blazeface.load()를 await를 사용해서 순차적으로 호출
+      // require("@tensorflow/tfjs-node");
+      // var tf = require("@tensorflow/tfjs");
+      // tf.setBackend("tensorflow");
       await tf.setBackend("webgl");
 
       // 전역 변수 g_var.model에 초기화된 모델을 저장
@@ -89,7 +121,7 @@ const AudioRecord = () => {
       });
 
       createDetector();
-    };
+    };;
     initFD();
   }, []);
 
@@ -140,6 +172,42 @@ const AudioRecord = () => {
     }
   };
 
+  // 표정 인식 함수
+  const EmotionDetection = async () => {
+    console.log("잘되는중")
+    const detections = await faceapi
+      .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
+      .withFaceLandmarks()
+      .withFaceExpressions();
+
+    angry += detections[0].expressions.angry;
+    disgusted += detections[0].expressions.disgusted;
+    fearful += detections[0].expressions.fearful;
+    happy += detections[0].expressions.happy;
+    neutral += detections[0].expressions.neutral;
+    sad += detections[0].expressions.sad;
+    surprised += detections[0].expressions.surprised;
+
+    canvasRef.current.innerHtml = faceapi.createCanvasFromMedia(
+      videoRef.current
+    );
+    faceapi.matchDimensions(canvasRef.current, {
+      width: videoRef.current.videoWidth,
+      height: videoRef.current.videoHeight,
+    });
+
+    const resizedResults = faceapi.resizeResults(detections, {
+      width: videoRef.current.videoWidth,
+      height: videoRef.current.videoHeight,
+    });
+
+    faceapi.draw.drawDetections(canvasRef.current, resizedResults); //얼굴네모출력
+    // faceapi.draw.drawFaceLandmarks(canvasRef.current, resizedResults) //얼굴라인출력
+    faceapi.draw.drawFaceExpressions(canvasRef.current, resizedResults); //감정출력
+
+    console.log("화가나다",angry);
+  };
+
   // const startOrStop = () => {
   //   if (playing) {
   //     const s = videoRef.current.srcObject;
@@ -155,12 +223,17 @@ const AudioRecord = () => {
   //   }
   // };
 
+  const recognitions = () =>{
+    drawToIris()
+    EmotionDetection()
+  };
+
   // 반복적으로 그려주는 함수
   // setTimeout(expired(),TIME) : TIME 시간이 지난 뒤 expired()를 호출
   // setInterval(expired(),TIME) : TIME 간격으로, expired()를 반복 호출
   const startOrStop = () => {
     if (!timer) {
-      const t = setInterval(() => drawToIris(), 200);
+      const t = setInterval(() => recognitions(), 200);
       setTimer(t);
     } else {
       clearInterval(timer);
@@ -172,6 +245,17 @@ const AudioRecord = () => {
     // wordcloud code
     console.log(transcript);
     words.push({ text: "hi", value: 1 });
+
+    // 표정인식 결과 퍼센트계산
+    sum = angry + happy + disgusted + neutral + sad + surprised + fearful;
+    
+    angry = (angry / sum) * 100;
+    happy = (happy / sum) * 100;
+    disgusted = (disgusted / sum) * 100;
+    neutral = (neutral / sum) * 100;
+    sad = (sad / sum) * 100;
+    surprised = (surprised / sum) * 100;
+    fearful = (fearful / sum) * 100;
 
     //동작 여부를 보기 위해 값을 넣어놓음
     for (let i = 0; i < a.length; i++) {
@@ -196,6 +280,14 @@ const AudioRecord = () => {
         word: words,
         left_eye: left_eye_list,
         right_eye: right_eye_list,
+
+        angryvalue: angry,
+        happyvalue: happy,
+        disgustedvalue: disgusted,
+        neutralvalue: neutral,
+        sadvalue: sad,
+        surprisedvalue: surprised,
+        fearfulvalue:fearful
       },
     });
   };
