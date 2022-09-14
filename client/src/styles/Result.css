@@ -162,10 +162,10 @@ margin-right: 1.5%; */
     margin-right: 11%;
     width: 35%;
     height: 360px;
-    background-image: url(/public/example2.png);
+    /* background-image: url(/public/example2.png);
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center; */
 }
 
 .Explanation {
