@@ -1,35 +1,47 @@
 // import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "../styles/Result.css";
 import ReactWordcloud from "react-wordcloud";
 
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
-import { createTheme } from '@mui/material/styles';
-import { ThemeProvider } from '@mui/material/styles';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import { createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 // npm install @mui/lab @mui/material --force
 
+// Video element 속성
+const Styles = {
+  Canvas: {
+    width: "300",
+    height: "300",
+    background: "rgba(0,0,0,0)",
+    border: "1px solid green",
+  },
+  None: { display: "none" },
+};
 
 const customTheme = createTheme({
   palette: {
     primary: {
-      light: '#757ce8',
-      main: '#3f50b5',
-      dark: '#002884',
+      light: "#757ce8",
+      main: "#3f50b5",
+      dark: "#002884",
     },
     secondary: {
-      light: '#8f9bff',
-      main: '#536dfe',
-      dark: '0043ca',
+      light: "#8f9bff",
+      main: "#536dfe",
+      dark: "0043ca",
     },
   },
 });
 
 let words = [];
+let left_eye_list = [];
+let right_eye_list = [];
 
 const options = {
   //  colors: ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b"],
@@ -53,10 +65,89 @@ function Result() {
   const location = useLocation();
   const a = location.state.word;
   words = location.state.word;
+
+  left_eye_list = location.state.left_eye;
+  right_eye_list = location.state.right_eye;
+
+  const Left_canvasRef = React.useRef(null);
+  const Right_canvasRef = React.useRef(null);
+
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  //  배열 값으로 홍채 움직임 좌표 출력
+  const DrawIrisResult = () => {
+    console.log("drawIrisResult");
+    const leftctx = Left_canvasRef.current.getContext("2d");
+    const rightctx = Right_canvasRef.current.getContext("2d");
+
+    Left_canvasRef.current.width = 300;
+    Left_canvasRef.current.height = 300;
+
+    Right_canvasRef.current.width = 300;
+    Right_canvasRef.current.height = 300;
+
+    // 가로 세로 선 그리기
+    leftctx.strokeStyle = "#000000";
+    leftctx.lineWidth = 1;
+    // 세로 축
+    leftctx.beginPath();
+    leftctx.moveTo(0, 150);
+    leftctx.lineTo(300, 150);
+    leftctx.setLineDash([5]);
+    leftctx.stroke();
+    // 가로 축
+    leftctx.beginPath();
+    leftctx.moveTo(150, 0);
+    leftctx.lineTo(150, 300);
+    leftctx.setLineDash([5]);
+    leftctx.stroke();
+
+    // 가로 세로 선 그리기
+    rightctx.strokeStyle = "#000000";
+    rightctx.lineWidth = 1;
+    // 세로 축
+    rightctx.beginPath();
+    rightctx.moveTo(0, 150);
+    rightctx.lineTo(300, 150);
+    rightctx.setLineDash([5]);
+    rightctx.stroke();
+    // 가로 축
+    rightctx.beginPath();
+    rightctx.moveTo(150, 0);
+    rightctx.lineTo(150, 300);
+    rightctx.setLineDash([5]);
+    rightctx.stroke();
+
+    for (let i = 1; i < left_eye_list.length; i++) {
+      // console.log(left_eye_list[i].x);
+      leftctx.beginPath();
+      leftctx.arc(
+        left_eye_list[i].x - left_eye_list[0].x + 150,
+        left_eye_list[i].y - left_eye_list[0].y + 150,
+        5,
+        0,
+        2 * Math.PI
+      );
+      leftctx.stroke();
+      leftctx.fillStyle = "red";
+      leftctx.fill();
+
+      rightctx.beginPath();
+      rightctx.arc(
+        right_eye_list[i].x - right_eye_list[0].x + 150,
+        right_eye_list[i].y - right_eye_list[0].y + 150,
+        5,
+        0,
+        2 * Math.PI
+      );
+      rightctx.stroke();
+      rightctx.fillStyle = "blue";
+      rightctx.fill();
+    }
   };
 
   return (
@@ -105,26 +196,34 @@ function Result() {
             </p>
           </div>
           <div className="questionArea">
-          <ThemeProvider theme={customTheme}>
-            <Box sx={{ width: "100%", typography: "body1" }}>
-              <TabContext value={value}>
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                  <TabList
-                    onChange={handleChange}
-                    textColor="secondary"
-                    indicatorColor="secondary"
-                    // aria-label="lab API tabs example"
-                  >
-                    <Tab label="질문 1" value="1" />
-                    <Tab label="질문 2" value="2" />
-                    <Tab label="질문 3" value="3" />
-                  </TabList>
-                </Box>
-                <TabPanel value="1">지원하게 된 동기는 무엇이며 자신이 지원한 직무를 성공적으로 수행할 수 있다고 생각하는 이유를 말해주세요.</TabPanel>
-                <TabPanel value="2">지원하는 직무를 성공적으로 수행하기 위해 도움이 될 기술이나 경험 등 면접자의 역량은 어떤 것이 있나요?</TabPanel>
-                <TabPanel value="3">인생관/가치관 정립에 영향을 준 사건은?</TabPanel>
-              </TabContext>
-            </Box>
+            <ThemeProvider theme={customTheme}>
+              <Box sx={{ width: "100%", typography: "body1" }}>
+                <TabContext value={value}>
+                  <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                    <TabList
+                      onChange={handleChange}
+                      textColor="secondary"
+                      indicatorColor="secondary"
+                      // aria-label="lab API tabs example"
+                    >
+                      <Tab label="질문 1" value="1" />
+                      <Tab label="질문 2" value="2" />
+                      <Tab label="질문 3" value="3" />
+                    </TabList>
+                  </Box>
+                  <TabPanel value="1">
+                    지원하게 된 동기는 무엇이며 자신이 지원한 직무를 성공적으로
+                    수행할 수 있다고 생각하는 이유를 말해주세요.
+                  </TabPanel>
+                  <TabPanel value="2">
+                    지원하는 직무를 성공적으로 수행하기 위해 도움이 될 기술이나
+                    경험 등 면접자의 역량은 어떤 것이 있나요?
+                  </TabPanel>
+                  <TabPanel value="3">
+                    인생관/가치관 정립에 영향을 준 사건은?
+                  </TabPanel>
+                </TabContext>
+              </Box>
             </ThemeProvider>
           </div>
         </div>
@@ -136,8 +235,13 @@ function Result() {
               <h3> 음성 분석 </h3>
             </div>
             <div className="analyzeimage">
-              <div id="one"></div>
-              <div id="two"></div>
+              <div id="one">
+                <canvas ref={Left_canvasRef} style={Styles.Canvas} />
+              </div>
+              <div id="two">
+                <canvas ref={Right_canvasRef} style={Styles.Canvas} />
+              </div>
+              <button onClick={() => DrawIrisResult()}>hihi</button>
             </div>
             <div className="Explanation">
               <p id="explanation-header">해석</p>
