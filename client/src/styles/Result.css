@@ -55,21 +55,63 @@ margin-right: 1.5%; */
     font-weight: bold;
 }
 
+.Explanation {
+    width: 80%;
+    margin: 0 auto;
+    border-radius: 20px;
+    background-color: #F7F7F7;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    color: #5a5a5a;
+}
+
+#explanation-header {
+    font-size: 13pt;
+    font-weight: bold;
+}
+
+#explanation-contenet {
+    font-size: 12pt;
+    white-space: pre-line;
+}
+
 /* 질문 띄우는 div */
 .questionArea {
     width: 80%;
     margin: 0 auto;
-    background-color: #F7F7F7;
     border-radius: 20px;
+    background-color: #F7F7F7;
     margin-top: 20px;
     margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 25px;
+    padding-right: 25px;
+    color: #5a5a5a;
+}
+
+#questionArea-header {
+
+    /* padding: 13px; */
+    /* ;
+    margin-top: 10px; */
+    padding-bottom: 10px;
+    font-size: 13pt;
+    font-weight: bold;
+    border-bottom: 3px solid white;
+    margin-bottom: 0;
+}
+
+#questionArea-contenet {
+    display: flex;
+    flex-direction: row;
+    padding-top: 15px;
+    padding-bottom: 10px;
+
 }
 
 .btns {
@@ -92,24 +134,6 @@ margin-right: 1.5%; */
     padding-bottom: 0.5%;
     background: #d2d2d2;
     font-weight: bold;
-}
-
-#question {
-    display: flex;
-    flex-direction: row;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-#quesList {
-    margin-left: 2%;
-    margin-bottom: 2%;
-}
-
-#quesContent {
-    display: inline;
-    margin-left: 0;
-    padding-left: 0;
 }
 
 /* 분석 결과 띄우는 div */
@@ -162,36 +186,7 @@ margin-right: 1.5%; */
     margin-right: 11%;
     width: 35%;
     height: 360px;
-    /* background-image: url(/public/example2.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center; */
 }
-
-.Explanation {
-    width: 80%;
-    margin: 0 auto;
-    border-radius: 20px;
-    background-color: #F7F7F7;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 25px;
-    padding-right: 25px;
-    color: #5a5a5a;
-}
-
-#explanation-header {
-    font-size: 13pt;
-    font-weight: bold;
-}
-
-#explanation-contenet {
-    font-size: 12pt;
-    white-space: pre-line;
-}
-
 
 /* 2. 음성분석 */
 #voice {
@@ -237,14 +232,12 @@ margin-right: 1.5%; */
     background: #f8e6ff;
 }
 
-#four {
+#wordgraph {
     float: right;
     margin-right: 11%;
-    width: 35%;
+    width: 40%;
     height: 360px;
-    background: #FDF5DC;
 }
-
 
 /* 4. Voice Fitch */
 #pitch {
@@ -256,8 +249,7 @@ margin-right: 1.5%; */
     float: left;
     margin-left: 11%;
     width: 35%;
-    height: 360px;
-    background: #ebc2c2;
+    /* height: 360px; */
 }
 
 #six {
