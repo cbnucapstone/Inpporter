@@ -1,5 +1,6 @@
-import React from "react";import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useRef, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import "../styles/VoiceRecord.css";
 
@@ -15,9 +16,8 @@ import * as blazeface from "@tensorflow-models/blazeface";
 import * as faceDetection from "@tensorflow-models/face-detection";
 
 // react face-api.js
-// import * as faceapi from "face-api.js"; 
-import * as faceapi from '@vladmandic/face-api';
-
+// import * as faceapi from "face-api.js";
+import * as faceapi from "@vladmandic/face-api";
 
 const words = [];
 
@@ -38,6 +38,11 @@ let surprised = 0;
 let sum = 0;
 
 const AudioRecord = () => {
+  // 면접 진행할 질문
+  const location = useLocation();
+  const select_question = location.state.question;
+  const select_category = location.state.category;
+
   const navigate = useNavigate();
   const [playing, setPlaying] = useState(true);
   const [timer, setTimer] = useState(undefined);
@@ -74,7 +79,6 @@ const AudioRecord = () => {
     },
     None: { display: "none" },
   };
-  
 
   // 웹캠 띄우기
   const getWebcam = (callback) => {
@@ -117,11 +121,12 @@ const AudioRecord = () => {
 
       // 웹 캠 열기
       getWebcam((stream) => {
+        console.log(stream);
         videoRef.current.srcObject = stream;
       });
 
       createDetector();
-    };;
+    };
     initFD();
   }, []);
 
@@ -162,7 +167,6 @@ const AudioRecord = () => {
 
         // const preds = await await g_var.model.estimateFaces(canvasRef.current, false);
         const faces = await detector.estimateFaces(canvasRef.current);
-        console.log("-----faces", faces);
 
         left_eye_list.push(faces[0].keypoints[0]);
         right_eye_list.push(faces[0].keypoints[1]);
@@ -174,11 +178,11 @@ const AudioRecord = () => {
 
   // 표정 인식 함수
   const EmotionDetection = async () => {
-    console.log("잘되는중")
     const detections = await faceapi
       .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
       .withFaceLandmarks()
       .withFaceExpressions();
+    // console.log(detections[0].expressions);
 
     angry += detections[0].expressions.angry;
     disgusted += detections[0].expressions.disgusted;
@@ -204,28 +208,11 @@ const AudioRecord = () => {
     faceapi.draw.drawDetections(canvasRef.current, resizedResults); //얼굴네모출력
     // faceapi.draw.drawFaceLandmarks(canvasRef.current, resizedResults) //얼굴라인출력
     faceapi.draw.drawFaceExpressions(canvasRef.current, resizedResults); //감정출력
-
-    console.log("화가나다",angry);
   };
 
-  // const startOrStop = () => {
-  //   if (playing) {
-  //     const s = videoRef.current.srcObject;
-  //     s.getTracks().forEach((track) => {
-  //       setPlaying(false);
-  //       track.stop();
-  //     });
-  //   } else {
-  //     getWebcam((stream1) => {
-  //       setPlaying(true);
-  //       videoRef.current.srcObject = stream1;
-  //     });
-  //   }
-  // };
-
-  const recognitions = () =>{
-    drawToIris()
-    EmotionDetection()
+  const recognitions = () => {
+    drawToIris();
+    EmotionDetection();
   };
 
   // 반복적으로 그려주는 함수
@@ -243,12 +230,11 @@ const AudioRecord = () => {
 
   const checkResult = () => {
     // wordcloud code
-    console.log(transcript);
     words.push({ text: "hi", value: 1 });
 
     // 표정인식 결과 퍼센트계산
     sum = angry + happy + disgusted + neutral + sad + surprised + fearful;
-    
+
     angry = (angry / sum) * 100;
     happy = (happy / sum) * 100;
     disgusted = (disgusted / sum) * 100;
@@ -260,7 +246,6 @@ const AudioRecord = () => {
     //동작 여부를 보기 위해 값을 넣어놓음
     for (let i = 0; i < a.length; i++) {
       if (words.findIndex((v) => v.text === a[i]) !== -1) {
-        console.log(words.findIndex((v) => v.text === a[i]));
         words[words.findIndex((v) => v.text === a[i])].value++;
       } else {
         words.push({ text: a[i], value: 1 });
@@ -278,6 +263,7 @@ const AudioRecord = () => {
     navigate("/result", {
       state: {
         word: words,
+
         left_eye: left_eye_list,
         right_eye: right_eye_list,
 
@@ -287,7 +273,10 @@ const AudioRecord = () => {
         neutralvalue: neutral,
         sadvalue: sad,
         surprisedvalue: surprised,
-        fearfulvalue:fearful
+        fearfulvalue: fearful,
+
+        question: select_question,
+        category: select_category,
       },
     });
   };
@@ -305,7 +294,7 @@ const AudioRecord = () => {
         <div id="videoArea">
           <div id="recordTitle">
             {" "}
-            <h1> PRACTICE THE INTERVIEW </h1>
+            <h1> {select_question} </h1>
           </div>
 
           <video
@@ -316,22 +305,34 @@ const AudioRecord = () => {
           ></video>
         </div>
         <div id="btnArea">
-          <button id="videoPlayBtn" onClick={startOrStop}>
+          {/* <button
+            id="videoPlayBtn"
+            onClick={() => {
+              startOrStop();
+            }}
+          >
             {timer ? "화면 중지" : "화면 시작"}
-          </button>
+          </button> */}
           {listening ? (
-            <button id="audioRecBtn" onClick={SpeechRecognition.stopListening}>
+            <button
+              id="audioRecBtn_stop"
+              onClick={() => {
+                SpeechRecognition.stopListening();
+                startOrStop();
+              }}
+            >
               녹음 종료
             </button>
           ) : (
             <button
-              id="audioRecBtn"
-              onClick={() =>
+              id="audioRecBtn_start"
+              onClick={() => {
                 SpeechRecognition.startListening({
                   continuous: true,
                   language: "ko",
-                })
-              }
+                });
+                startOrStop();
+              }}
             >
               녹음 시작
             </button>

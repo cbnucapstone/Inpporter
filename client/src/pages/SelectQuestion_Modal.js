@@ -1,18 +1,20 @@
+// 질문 선택 페이지로 넘어갈 때 뜨는 모달팝업
+
 import React, { useState, useEffect } from "react";
-import "../styles/modal.css";
 import styled from "styled-components";
 import { useSelector } from "react-redux"; // useSelector
 import axios from "axios";
-import { Link } from "react-router-dom";
 
-const Modal = (props) => {
+import "../styles/SelectQuestion_Modal.css";
+import Modal from "../components/Modal.js";
+
+const SelectQuestion_Modal = (props) => {
   // userid 가져오기
   const userid = useSelector((state) => state.User.id);
-  // console.log('Modal Page user id : '+userid);
 
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
-  const [btnActive, setbtnActive] = useState("0");
-  const [selected, setSelected] = useState("0");
+  const [btnActive, setbtnActive] = useState("1");
+  const [selected, setSelected] = useState("역량");
   const { open, close, header } = props;
 
   // questionList
@@ -22,26 +24,38 @@ const Modal = (props) => {
   const [checkedList, setCheckedList] = useState([]);
   const onCheckedElement = (checked, item) => {
     if (checked) {
-      setCheckedList([...checkedList, item]);
+      if (checkedList.length == 0) {
+        setCheckedList([...checkedList, item]);
+      } else {
+        setSelectOpen(true);
+      }
     } else if (!checked) {
       setCheckedList(checkedList.filter((el) => el !== item));
     }
   };
 
-  // x 누르면 리스팅 목록에서 카테고리 삭제
-  const onRemove = (item) => {
-    setCheckedList(checkedList.filter((el) => el !== item));
+  // 질문 최종 선택 모달 팝업
+  const [popupOpen, setPopupOpen] = useState(false);
+  const openPopup = () => {
+    setPopupOpen(true);
+  };
+  const closePopup = () => {
+    setPopupOpen(false);
   };
 
-  const onTry = () => {
-    if (checkedList.length === 0) {
-      console.log("없음");
-    } else {
-      for (var i = 0; i < checkedList.length; i++) {
-        console.log(checkedList[i]);
-      }
-    }
+  // 질문 하나만 선택하도록 띄우는 모달 팝업
+  const [selectOpen, setSelectOpen] = useState(false);
+  const openSelect = () => {
+    setSelectOpen(true);
   };
+  const closeSelect = () => {
+    setSelectOpen(false);
+  };
+
+  // x 누르면 리스팅 목록에서 카테고리 삭제
+  // const onRemove = (item) => {
+  //   setCheckedList(checkedList.filter((el) => el !== item));
+  // };
 
   // 질문 리스트 받아오기
   useEffect(() => {
@@ -70,9 +84,7 @@ const Modal = (props) => {
   }, [selected]);
 
   useEffect(() => {
-    if (btnActive === "0") {
-      setSelected("전체");
-    } else if (btnActive === "1") {
+    if (btnActive === "1") {
       setSelected("역량");
     } else if (btnActive === "2") {
       setSelected("지원동기");
@@ -96,12 +108,12 @@ const Modal = (props) => {
           </header>
           <main>
             <div className="left">
-              <button
+              {/* <button
                 className={"leftbutton" + ("0" === btnActive ? "active" : "")}
                 onClick={() => setbtnActive("0")}
               >
                 전체
-              </button>
+              </button> */}
               <button
                 className={"leftbutton" + ("1" === btnActive ? "active" : "")}
                 onClick={() => setbtnActive("1")}
@@ -150,19 +162,45 @@ const Modal = (props) => {
             </div>
           </main>
           <footer>
-            <Link to="/voicerecord">
-              <button className="close" onClick={() => onTry()}>
-                연습하기
-              </button>
-            </Link>
+            <button className="close" onClick={openPopup}>
+              다음
+            </button>
           </footer>
         </section>
       ) : null}
+      {checkedList.length == 0 ? (
+        <Modal
+          open_popup={popupOpen}
+          close_popup={closePopup}
+          header_popup="Error"
+          cate_popup=""
+        >
+          선택된 질문이 없습니다. 질문을 선택해주세요.
+        </Modal>
+      ) : (
+        <Modal
+          open_popup={popupOpen}
+          close_popup={closePopup}
+          header_popup={checkedList[0]}
+          cate_popup={selected}
+        >
+          "{checkedList[0]}" 에 대한 연습 면접을 진행하시겠습니까?.
+        </Modal>
+      )}
+      <Modal
+        open_popup={selectOpen}
+        close_popup={closeSelect}
+        header_popup="Error"
+        cate_popup=""
+      >
+        "{checkedList[0]}" 이 선택되어 있습니다. 해당 질문 선택 해제 후 다른
+        질문을 선택해주세요.
+      </Modal>
     </div>
   );
 };
 
-export default Modal;
+export default SelectQuestion_Modal;
 
 const StyledInput = styled.input`
   appearance: none;

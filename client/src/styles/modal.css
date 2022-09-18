@@ -1,160 +1,88 @@
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 99;
-    background-color: rgba(0, 0, 0, 0.6);
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.6);
 }
-
-.modal button {
-    outline: none;
-    cursor: pointer;
-    border: 0;
+.popup button {
+  outline: none;
+  cursor: pointer;
+  border: 0;
 }
-
-.modal>section {
-    /* width: 90%;
-    height:100%;
-    max-height: 70vh;
-    max-width: 60vw; */
-    width:70vw;
-    height:80vh;
-    margin: 0 auto;
-    border-radius: 1rem;
-    background-color: #fff;
-    /* 팝업이 열릴때 스르륵 열리는 효과 */
-    animation: modal-show 0.3s;
-    overflow: hidden;
-    position:relative;
+.popup > section {
+  width: 90%;
+  max-width: 450px;
+  margin: 0 auto;
+  border-radius: 0.3rem;
+  background-color: #fff;
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: popup-show 0.3s;
+  overflow: hidden;
 }
-
-.modal>section>header {
-    position: relative;
-    padding: 16px 64px 16px 16px;
-    background-color: #f1f1f1;
-    font-weight: 700;
+.popup > section > header {
+  position: relative;
+  padding: 16px 64px 16px 16px;
+  background-color: #f1f1f1;
+  font-weight: 700;
 }
-
-.modal>section>header button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 30px;
-    font-size: 21px;
-    font-weight: 700;
-    text-align: center;
-    color: #999;
-    background-color: transparent;
+.popup > section > header button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  font-size: 21px;
+  font-weight: 700;
+  text-align: center;
+  color: #999;
+  background-color: transparent;
 }
-
-.modal>section>main {
-    height:100%;
-    max-height: 72%;
-    min-height: 72%;
-    padding: 16px;
-    border-bottom: 1px solid #dee2e6;
-    border-top: 1px solid #dee2e6;
-    display:flex;
+.popup > section > main {
+  padding: 16px;
+  border-bottom: 1px solid #dee2e6;
+  border-top: 1px solid #dee2e6;
 }
-
-.left{
-    flex-direction: column;
-    width:auto;
-    height:100%;
-    flex:30%;
-    display:flex;
-    border-right:solid 1px #e7e7e7  ;
-    /* background-color: aqua; */
+.popup > section > footer {
+  padding: 12px 16px;
+  text-align: right;
 }
-
-.leftbutton{
-    text-align: left;
-    padding:10px;
-    margin-bottom:10px;
-    margin-right:10px;
-    background-color:white;
-    font-weight: bold;
-    color: #5c5c5c;
-    font-size:inherit;
+.popup > section > footer button {
+  /* padding: 6px 12px;
+  color: #fff;
+  background-color: #6c757d;
+  border-radius: 5px;
+  font-size: 13px; */
+  padding: 10px 16px;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  font-weight: bold;
+  color: #5c5c5c;
+  font-size: inherit;
 }
-
-.leftbuttonactive{
-    text-align: left;
-    padding:10px;
-    margin-bottom:10px;
-    margin-right:10px;
-    background-color:white;
-    font-weight: bold;
-    color: #ff6464;
-    font-size:inherit;
+.popup.openpopup {
+  display: flex;
+  align-items: center;
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: popup-bg-show 0.3s;
 }
-
-.right{
-    flex-direction: column;
-    overflow: scroll;
-    overflow-x: hidden;
-    width:auto;
-    height:100%;
-    flex:70%;
-    display:flex;
-    /* background-color:blueviolet; */
+@keyframes popup-show {
+  from {
+    opacity: 0;
+    margin-top: -50px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
 }
-
-.question_content{
-    padding: 10px;
-    border-radius: 0.7rem;
-    border: solid 1px #dee2e6;
-    margin: 10px;
-    color: #5c5c5c;
-    font-size:inherit;    
-}
-
-.question_content input{
-    margin-right: 10px;
-}
-
-.modal>section>footer {
-    padding: 12px 16px;
-    text-align: right;
-}
-
-.modal>section>footer button {
-    padding: 10px 16px;
-    background-color: #f8f8f8;
-    border-radius: 5px;
-    font-weight: bold;
-    color: #5c5c5c;
-    font-size:inherit;
-}
-
-.modal.openModal {
-    display: flex;
-    align-items: center;
-    /* 팝업이 열릴때 스르륵 열리는 효과 */
-    animation: modal-bg-show 0.3s;
-}
-
-@keyframes modal-show {
-    from {
-        opacity: 0;
-        margin-top: -50px;
-    }
-
-    to {
-        opacity: 1;
-        margin-top: 0;
-    }
-}
-
-@keyframes modal-bg-show {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+@keyframes popup-bg-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
