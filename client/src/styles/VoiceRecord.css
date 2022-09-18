@@ -1,79 +1,79 @@
-#btnArea{
-padding-top: 1%;
-padding-bottom: 5%;
-display: flex;
-background: white;
-justify-content: center;
-align-items: center;
-flex-direction: row;
+#btnArea {
+  padding-top: 1%;
+  padding-bottom: 5%;
+  display: flex;
+  background: white;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 }
 
-#recordTitle{
-padding-top: 14%;
-padding-bottom: 2%;
-display: flex;
-background: white;
-justify-content: center;
-align-items: center;
-flex-direction: row;
+#recordTitle {
+  padding-top: 14%;
+  padding-bottom: 2%;
+  display: flex;
+  background: white;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 }
 
-#videoPlayBtn{
-font-size: 17px;
-margin-right: 2%;
-height: 50px;
-width: 200px;
-border-radius: 30px;
-background-color: rgba(248, 182, 150, 0.98);
-color: #FFFFFF;
-border: 0px;
+#audioRecBtn_stop {
+  font-size: 17px;
+  margin-right: 2%;
+  height: 50px;
+  width: 200px;
+  border-radius: 30px;
+  background-color: #cdcdcd;
+  color: #ffffff;
+  border: 0px;
 }
 
-#audioRecBtn{
-font-size: 17px;
-margin-right: 2%;
-height: 50px;
-width: 200px;
-border-radius: 30px;
-background-color: rgba(244, 131, 102, 0.98);
-color: #FFFFFF;
-border: 0px;
+#audioRecBtn_start {
+  font-size: 17px;
+  margin-right: 2%;
+  height: 50px;
+  width: 200px;
+  border-radius: 30px;
+  background-color: rgba(244, 131, 102, 0.98);
+  color: #ffffff;
+  border: 0px;
 }
 
-#checkResultBtn{
-font-size: 17px;
-height: 50px;
-width: 200px;
-border-radius: 30px;
-background-color: #afd4fa;
-color: #FFFFFF;
-border: 0px;
+#checkResultBtn {
+  font-size: 17px;
+  height: 50px;
+  width: 200px;
+  border-radius: 30px;
+  background-color: #afd4fa;
+  color: #ffffff;
+  border: 0px;
 }
 
-#videoArea{
-display: inline-block;
-padding-top: 2%;
-padding-bottom: 2%;
-/*background-color: rgba(245, 240, 215, 0.5);*/
+#videoArea {
+  display: inline-block;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  /*background-color: rgba(245, 240, 215, 0.5);*/
 }
 
-#checkResultBtn:hover{
-    color: #afd4fa;
-    background-color: white;
-    border: 2px solid #afd4fa;
+#checkResultBtn:hover {
+  color: #afd4fa;
+  background-color: white;
+  border: 2px solid #afd4fa;
 }
 
-#videoPlayBtn:hover{
-    color: rgba(248, 182, 150, 0.98);
-    background-color: white;
-    border: 2px solid rgba(248, 182, 150, 0.98);
+#videoPlayBtn:hover {
+  color: rgba(248, 182, 150, 0.98);
+  background-color: white;
+  border: 2px solid rgba(248, 182, 150, 0.98);
 }
 
-#audioRecBtn:hover{
-    color: rgba(244, 131, 102, 0.98);
-    background-color: white;
-    border: 2px solid rgba(244, 131, 102, 0.98);
+#audioRecBtn:hover {
+  color: rgba(244, 131, 102, 0.98);
+  background-color: white;
+  border: 2px solid rgba(244, 131, 102, 0.98);
 }
-#recordArea{
-text-align: center;
+#recordArea {
+  text-align: center;
 }

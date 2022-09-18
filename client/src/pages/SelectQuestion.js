@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Modal from "../pages/Modal.js";
+import SelectQuestion_Modal from "../pages/SelectQuestion_Modal";
 import "../styles/SelectQuestion.css";
 
 const SelectQuestion = () => {
@@ -16,11 +16,11 @@ const SelectQuestion = () => {
       className="home"
       style={{ backgroundImage: "url(./background-img.jpg)" }}
     >
-      <Modal
+      <SelectQuestion_Modal
         open={modalOpen}
         close={closeModal}
         header="연습할 질문을 선택해주세요"
-      ></Modal>
+      ></SelectQuestion_Modal>
     </div>
   );
 };
