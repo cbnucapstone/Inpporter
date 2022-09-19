@@ -1,0 +1,56 @@
+#listpage {
+width: 93%;
+height: auto;
+padding-top: 130px;
+padding-bottom: 130px;
+}
+
+#title {
+width: 99%;
+margin-left: 4%;
+border-bottom: 2.4px solid #dcdcdc;
+color: #706E6E;
+}
+
+#sort{
+margin-left: 98%;
+width: 100%;
+}
+
+#sortBtn{
+border: none;
+background-color: transparent;
+font-weight: bold;
+color: #706E6E;
+}
+
+.AnalyzeList {
+width: 100%;
+display: flex;
+}
+
+.results1{
+margin-left: 14%;
+width: 30%;
+}
+
+.results2{
+width: 30%;
+
+}
+
+.results3{
+width: 30%;
+margin-right: 5%;
+}
+
+.selfpic{
+width: 300px;
+height: 300px;
+border-radius: 5%;
+}
+
+.goResult{
+background-color: transparent;
+border-color: transparent;
+}
