@@ -1,6 +1,8 @@
 import React from "react";
 import { useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 import "../styles/VoiceRecord.css";
 
@@ -18,6 +20,9 @@ import * as faceDetection from "@tensorflow-models/face-detection";
 // react face-api.js
 // import * as faceapi from "face-api.js";
 import * as faceapi from "@vladmandic/face-api";
+
+let file_name;
+let file_url;
 
 const words = [];
 
@@ -37,7 +42,14 @@ let sad = 0;
 let surprised = 0;
 let sum = 0;
 
+let videoMediaStream = null;
+let videoRecorder = null;
+let recordedVideoURL = null;
+let videoBlob = null;
+
 const AudioRecord = () => {
+  const username = useSelector((state) => state.User.name);
+
   // 면접 진행할 질문
   const location = useLocation();
   const select_question = location.state.question;
@@ -67,8 +79,8 @@ const AudioRecord = () => {
   const Styles = {
     // video css
     Video: {
-      width: "80%",
-      height: "85%",
+      width: "300",
+      height: "350",
       background: "rgba(245, 240, 215, 0.5)",
     },
     // canvas css
@@ -123,6 +135,7 @@ const AudioRecord = () => {
       getWebcam((stream) => {
         console.log(stream);
         videoRef.current.srcObject = stream;
+        videoMediaStream = stream;
       });
 
       createDetector();
@@ -277,8 +290,112 @@ const AudioRecord = () => {
 
         question: select_question,
         category: select_category,
+
+        filename: file_name,
+        fileurl: "http://localhost:5001/" + file_url,
       },
     });
+  };
+
+  // 녹화 시작
+  const VideoCaptureStart = () => {
+    if (navigator.mediaDevices.getUserMedia) {
+      console.log("video capture start");
+      let videoData = [];
+
+      // 1) MediaStream을 매개변수로 MediaRecorder 생성자를 호출
+      videoRecorder = new MediaRecorder(videoMediaStream, {
+        mimeType: "video/webm; codecs=vp9",
+      });
+
+      // 2) 전달받는 데이터를 처리하는 이벤트 핸들러 등록
+      videoRecorder.ondataavailable = (event) => {
+        if (event.data?.size > 0) {
+          videoData.push(event.data);
+        }
+      };
+
+      // 3) 녹화 중지 이벤트 핸들러 등록
+      videoRecorder.onstop = () => {
+        videoBlob = new Blob(videoData, { type: "video/webm" });
+        recordedVideoURL = window.URL.createObjectURL(videoBlob);
+        // URL 삭제
+        URL.revokeObjectURL(videoBlob);
+
+        // 이벤트 실행 시에 서버로 파일 POST
+        sendAvi(videoBlob);
+        console.log("video capture end");
+
+        // 다운로드 받기
+        // if (recordedVideoURL) {
+        //   const link = document.createElement("a");
+        //   document.body.appendChild(link);
+        //   // 녹화된 영상의 URL을 href 속성으로 설정
+        //   link.href = recordedVideoURL;
+        //   // 저장할 파일명 설정
+        //   link.download = "video.webm";
+        //   link.click();
+        //   document.body.removeChild(link);
+        // }
+      };
+
+      // 4) 녹화 시작
+      videoRecorder.start();
+    }
+  };
+
+  // 녹화 중지
+  const VideoCaptureEnd = () => {
+    if (videoRecorder) {
+      // 5) 녹화 중지
+      videoRecorder.stop();
+      videoRecorder = null;
+    }
+  };
+
+  // 서버로 전송
+  const sendAvi = (blob) => {
+    console.log("sendAvi");
+    if (blob == null) return;
+
+    const config = { header: { "content-type": "multipart/form-data" } };
+
+    let filename = `${Date.now()}_${username}` + ".webm";
+    console.log(filename);
+    const file = new File([blob], filename);
+
+    let formdata = new FormData();
+
+    formdata.append("fname", filename); // 파일 이름 추가
+    formdata.append("file", file); // 파일 추가
+
+    axios
+      .post("http://localhost:5001/video/uploadfiles", formdata, config)
+      .then((res) => {
+        if (res.data.success) {
+          console.log(res.data.url);
+          console.log(res.data.fileName);
+          file_name = res.data.fileName;
+          file_url = res.data.url;
+
+          let variable = {
+            url: res.data.url,
+            fileName: res.data.fileName,
+          };
+
+          // 추후 썸네일 코드 구현 예정
+          // axios
+          //   .post("http://localhost:5001/video/thumbnail", variable)
+          //   .then((response) => {
+          //     if (response.data.success) {
+          //     } else {
+          //       alert("썸네일 실행에 실패했습니다. ");
+          //     }
+          //   });
+        } else {
+          console.log("실패");
+        }
+      });
   };
 
   return (
@@ -319,6 +436,7 @@ const AudioRecord = () => {
               onClick={() => {
                 SpeechRecognition.stopListening();
                 startOrStop();
+                VideoCaptureEnd();
               }}
             >
               녹음 종료
@@ -332,6 +450,7 @@ const AudioRecord = () => {
                   language: "ko",
                 });
                 startOrStop();
+                VideoCaptureStart();
               }}
             >
               녹음 시작

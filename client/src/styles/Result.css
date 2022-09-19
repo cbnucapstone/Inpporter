@@ -192,9 +192,9 @@ margin-right: 1.5%; */
 #interviewVideo {
   float: left;
   margin-left: 11%;
-  width: 35%;
-  height: 360px;
-  background: #ffe6e6;
+  width: 300px;
+  height: 350px;
+  background: #000000;
   /* background-image: url(/public/example.png);
   background-size: cover;
   background-repeat: no-repeat;

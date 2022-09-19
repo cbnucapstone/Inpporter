@@ -21,6 +21,9 @@ import {
 import { Bar } from "react-chartjs-2";
 import { Pie } from "react-chartjs-2";
 
+let file_name;
+let file_url;
+
 // 질문
 let select_question;
 let select_category;
@@ -78,6 +81,8 @@ function Result() {
 
   select_question = location.state.question;
   select_category = location.state.category;
+  file_name = location.state.filename;
+  file_url = location.state.fileurl;
 
   const username = useSelector((state) => state.User.name);
 
@@ -309,6 +314,7 @@ function Result() {
   };
 
   // DrawUserImage();
+  console.log(file_url);
 
   return (
     <div
@@ -352,6 +358,20 @@ function Result() {
           </div>
           <div className="analyzeimage">
             <div id="interviewVideo">
+              <video
+                width="300px"
+                height="350px"
+                controls="controls"
+                autoPlay="autoplay"
+                loop="loop"
+              >
+                <source src={file_url} type="video/webm" />
+                Video Error
+              </video>
+              {/* <img
+                src={require("http://localhost:5001/uploads/5.jpg").default}
+                alt="Logo"
+              /> */}
               {/* <canvas ref={User_canvasRef} className="iriscanvas" /> */}
             </div>
             <div id="emotionGraph">
