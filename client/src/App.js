@@ -11,6 +11,7 @@ import Question from './pages/Question';
 import Result from './pages/Result';
 import Dictaphone from './pages/VoiceRecord';
 import SelectQuestion from './pages/SelectQuestion';
+import AnalyzeList from './pages/AnalyzeList.js'
 
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
@@ -28,6 +29,7 @@ function App() {
       <Route path="/result" element={<Result />} />
       <Route path="/voicerecord" element={<Dictaphone />} />
       <Route path="/selectquestion" element={<SelectQuestion/>}/>
+      <Route path="/analyzeList" element={<AnalyzeList/>}/>
     </Routes>
     <Footer/>
   </BrowserRouter>
