@@ -69,7 +69,7 @@ function Navbar() {
               </Link>
             )}
             {login ? (
-              <Link to="analyzeList" className="nav-left">
+              <Link to="resultList" className="nav-left">
                 면접 분석 결과
               </Link>
             ) : (
