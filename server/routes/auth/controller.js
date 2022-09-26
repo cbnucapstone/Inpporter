@@ -5,7 +5,10 @@ const register = (req, res) => {
   const user = new User(req.body);
 
   user.save((err, userInfo) => {
-    if (err) return res.status(200).json({ success: false, err });
+    if (err) {
+      console.log(err);
+      return res.status(200).json({ success: false, err });
+    }
     return res.status(200).json({ success: true });
   });
 };

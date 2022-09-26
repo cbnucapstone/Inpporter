@@ -1,0 +1,92 @@
+hr {
+  border-width: 1.5px;
+  border-style: solid;
+  border-color: #dcdcdcb4;
+}
+
+.resultListPage {
+  width: 92%;
+  padding-top: 100px;
+  margin: 0% 4% 4% 4%;
+}
+
+#resultListPage_title {
+  padding: 10px;
+  width: 100%;
+  margin: 20px 0px 20px 0px;
+  border-bottom: 2px solid #dcdcdc;
+}
+
+#resultListPage_title h1 {
+  font-size: 20pt;
+  font-weight: bold;
+  color: #5a5a5a;
+}
+
+.thumbnail-image {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.duration {
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  margin: 4px;
+  color: #fff;
+  background-color: rgba(17, 17, 17, 0.8);
+  opacity: 0.8;
+  padding: 2px 4px;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 12px;
+}
+
+.profile {
+  height: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 10pt;
+  white-space: pre-line;
+  align-items: center;
+}
+
+.date {
+  float: right;
+  display: inline-block;
+  color: #5a5a5a;
+  padding: 5px 0px 5px 0px;
+  font-size: 9pt;
+}
+
+.category {
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
+  padding: 5px 10px 5px 10px;
+  background-color: #eef1ff;
+  border-radius: 5px;
+  color: #4c6793;
+  font-weight: bold;
+}
+
+.question {
+  margin: 10px 0px 10px 0px;
+}
+
+.question span {
+  font-size: 13pt;
+  white-space: pre-line;
+  color: #5a5a5a;
+  font-weight: bold;
+}
+
+.ant-row {
+  margin: 10px;
+}
+
+.col {
+  margin-top: 10px;
+}

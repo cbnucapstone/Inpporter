@@ -21,8 +21,15 @@ import * as faceDetection from "@tensorflow-models/face-detection";
 // import * as faceapi from "face-api.js";
 import * as faceapi from "@vladmandic/face-api";
 
+import getBlobDuration from "get-blob-duration";
+
+// video, thumbnail
 let file_name;
 let file_url;
+let thumbnail_name;
+let thumbnail_url;
+let file_duration;
+let filenameset;
 
 const words = [];
 
@@ -49,6 +56,7 @@ let videoBlob = null;
 
 const AudioRecord = () => {
   const username = useSelector((state) => state.User.name);
+  const userid = useSelector((state) => state.User.id);
 
   // 면접 진행할 질문
   const location = useLocation();
@@ -61,6 +69,7 @@ const AudioRecord = () => {
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+  const canvasRef_thumbnail = useRef(null);
 
   const {
     transcript,
@@ -133,7 +142,6 @@ const AudioRecord = () => {
 
       // 웹 캠 열기
       getWebcam((stream) => {
-        console.log(stream);
         videoRef.current.srcObject = stream;
         videoMediaStream = stream;
       });
@@ -319,12 +327,17 @@ const AudioRecord = () => {
       videoRecorder.onstop = () => {
         videoBlob = new Blob(videoData, { type: "video/webm" });
         recordedVideoURL = window.URL.createObjectURL(videoBlob);
-        // URL 삭제
-        URL.revokeObjectURL(videoBlob);
 
-        // 이벤트 실행 시에 서버로 파일 POST
-        sendAvi(videoBlob);
-        console.log("video capture end");
+        getBlobDuration(recordedVideoURL).then(function (duration) {
+          file_duration = duration;
+
+          // URL 삭제
+          URL.revokeObjectURL(videoBlob);
+
+          // 이벤트 실행 시에 서버로 파일 POST
+          sendAvi(videoBlob);
+          console.log("video capture end");
+        });
 
         // 다운로드 받기
         // if (recordedVideoURL) {
@@ -359,9 +372,8 @@ const AudioRecord = () => {
     if (blob == null) return;
 
     const config = { header: { "content-type": "multipart/form-data" } };
-
-    let filename = `${Date.now()}_${username}` + ".webm";
-    console.log(filename);
+    filenameset = `${todayFormal()}_${username}`;
+    let filename = filenameset + ".webm";
     const file = new File([blob], filename);
 
     let formdata = new FormData();
@@ -373,29 +385,116 @@ const AudioRecord = () => {
       .post("http://localhost:5001/video/uploadfiles", formdata, config)
       .then((res) => {
         if (res.data.success) {
-          console.log(res.data.url);
-          console.log(res.data.fileName);
           file_name = res.data.fileName;
           file_url = res.data.url;
 
-          let variable = {
-            url: res.data.url,
-            fileName: res.data.fileName,
-          };
+          //thumbnail_Image Send Server
+          const thumbnail = document.getElementById("thumbnailCanvas");
+          const imgBase64 = thumbnail.toDataURL(
+            "image/jpeg",
+            "image/octet-stream"
+          );
 
-          // 추후 썸네일 코드 구현 예정
-          // axios
-          //   .post("http://localhost:5001/video/thumbnail", variable)
-          //   .then((response) => {
-          //     if (response.data.success) {
-          //     } else {
-          //       alert("썸네일 실행에 실패했습니다. ");
-          //     }
-          //   });
+          const decodImg = atob(imgBase64.split(",")[1]);
+
+          let thumbnailData = [];
+          for (let i = 0; i < decodImg.length; i++) {
+            thumbnailData.push(decodImg.charCodeAt(i));
+          }
+
+          const thumbnail_file = new Blob([
+            new Uint8Array(thumbnailData),
+            { type: "image/jpeg" },
+          ]);
+          const thumbnail_fileName = filenameset + ".jpeg";
+          let thumbnail_formData = new FormData();
+          thumbnail_formData.append("file", thumbnail_file, thumbnail_fileName);
+
+          axios
+            .post("http://localhost:5001/video/thumbnail", thumbnail_formData)
+            .then((res) => {
+              if (res.data.success) {
+                thumbnail_name = res.data.fileName;
+                thumbnail_url = res.data.url;
+
+                // DB에 저장
+                SaveDB();
+              } else {
+                console.log("실패");
+              }
+            });
         } else {
           console.log("실패");
         }
       });
+  };
+
+  // 결과 페이지에 띄울 썸네일 이미지 캡쳐
+  const capture_thumbnail = () => {
+    console.log("thumnail capture");
+    const thumbnail = canvasRef_thumbnail.current.getContext("2d");
+
+    // canvas의 넓이/높이를 입력 비디오 넓이/높이에 맞추는 과정
+    canvasRef_thumbnail.current.width = videoRef.current.videoWidth;
+    canvasRef_thumbnail.current.height = videoRef.current.videoHeight;
+
+    if (thumbnail && thumbnail !== null) {
+      if (videoRef.current) {
+        // 화면을 좌우 대칭으로 그리기
+        thumbnail.translate(canvasRef_thumbnail.current.width, 0);
+        thumbnail.scale(-1, 1);
+
+        // drawImage(입력, 시작점 x좌표, 시작점 y좌표, 넓이, 높이)
+        // 입력 비디오 사이즈와 같아진 canvas 넓이/높이만큼 그려주기
+        thumbnail.drawImage(
+          videoRef.current,
+          0,
+          0,
+          canvasRef_thumbnail.current.width,
+          canvasRef_thumbnail.current.height
+        );
+        thumbnail.setTransform(1, 0, 0, 1, 0, 0);
+      }
+    }
+  };
+
+  const SaveDB = () => {
+    console.log(file_duration);
+    const variable = {
+      //  state에서 id 를 가지고 있기 때문에 리덕스를 통해서 가져오면 된다.
+      user: userid,
+      title: `${filenameset}_${select_question}`,
+      filePath: file_url,
+      question: select_question,
+      category: select_category,
+      duration: file_duration,
+      thumbnail: thumbnail_url,
+    };
+
+    axios
+      .post("http://localhost:5001/video/uploaddb", variable)
+      .then((response) => {
+        if (response.data.success) {
+          console.log("업로드성ㅅ오공송공공");
+        } else {
+          alert("비디오 업로드에 실패 했습니다. ");
+        }
+      });
+  };
+
+  // 현재 날짜 구하기 (년/월/일)
+  const todayFormal = () => {
+    let now = new Date();
+    let todayYear = now.getFullYear();
+    let todayMonth =
+      now.getMonth() + 1 > 9 ? now.getMonth() + 1 : "0" + (now.getMonth() + 1);
+    let todayDate = now.getDate() > 9 ? now.getDate() : "0" + now.getDate();
+    let hours = now.getHours() > 9 ? now.getHours() : "0" + now.getHours();
+    let minutes =
+      now.getMinutes() > 9 ? now.getMinutes() : "0" + now.getMinutes();
+    let seconds =
+      now.getSeconds() > 9 ? now.getSeconds() : "0" + now.getSeconds; // 초
+    return todayYear + todayMonth + todayDate + "_" + hours + minutes + seconds;
   };
 
   return (
@@ -451,6 +550,7 @@ const AudioRecord = () => {
                 });
                 startOrStop();
                 VideoCaptureStart();
+                capture_thumbnail();
               }}
             >
               녹음 시작
@@ -463,6 +563,14 @@ const AudioRecord = () => {
         <div style={{ display: "none" }}>
           {" "}
           <canvas ref={canvasRef} style={Styles.Canvas} />
+        </div>
+        <div style={{ display: "none" }}>
+          {" "}
+          <canvas
+            id="thumbnailCanvas"
+            ref={canvasRef_thumbnail}
+            style={Styles.Canvas}
+          />
         </div>
       </div>
     </div>
