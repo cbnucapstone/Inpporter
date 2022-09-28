@@ -14,25 +14,12 @@ const userSchema = mongoose.Schema({
   nickname: {
     type: String,
   },
-  // sex:{
-  //     type:Boolean,
-  // },
   email: {
     type: String,
   },
   phone: {
     type: String,
   },
-  // role:{
-  //     type:Number,
-  //     default:0,
-  // },
-  // token:{
-  //     type:String,
-  // },
-  // tokenExp:{
-  //     type:Number,
-  // },
 });
 
 // 비밀번호 암호화

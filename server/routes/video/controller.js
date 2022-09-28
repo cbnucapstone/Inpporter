@@ -84,15 +84,14 @@ const thumbnail = (req, res) => {
 
 // DB에 저장
 const uploaddb = (req, res) => {
-  console.log(req.body);
   const video = new Video(req.body);
-  console.log(video);
+
   //mongodb 메소드로 저장
   video.save((err, doc) => {
     if (err) {
       return res.json({ success: false, err });
     }
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true, objectid: doc._id });
   });
 };
 

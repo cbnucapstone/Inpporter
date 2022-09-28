@@ -24,12 +24,12 @@ import * as faceapi from "@vladmandic/face-api";
 import getBlobDuration from "get-blob-duration";
 
 // video, thumbnail
-let file_name;
 let file_url;
-let thumbnail_name;
 let thumbnail_url;
 let file_duration;
 let filenameset;
+let video_id;
+let todayDate;
 
 const words = [];
 
@@ -281,6 +281,9 @@ const AudioRecord = () => {
         track.stop();
       });
     }
+
+    todayDate = filenameset.split("_");
+
     navigate("/result", {
       state: {
         word: words,
@@ -299,8 +302,9 @@ const AudioRecord = () => {
         question: select_question,
         category: select_category,
 
-        filename: file_name,
         fileurl: "http://localhost:5001/" + file_url,
+
+        date: todayDate[0],
       },
     });
   };
@@ -385,7 +389,6 @@ const AudioRecord = () => {
       .post("http://localhost:5001/video/uploadfiles", formdata, config)
       .then((res) => {
         if (res.data.success) {
-          file_name = res.data.fileName;
           file_url = res.data.url;
 
           //thumbnail_Image Send Server
@@ -414,7 +417,6 @@ const AudioRecord = () => {
             .post("http://localhost:5001/video/thumbnail", thumbnail_formData)
             .then((res) => {
               if (res.data.success) {
-                thumbnail_name = res.data.fileName;
                 thumbnail_url = res.data.url;
 
                 // DB에 저장
@@ -471,15 +473,42 @@ const AudioRecord = () => {
       thumbnail: thumbnail_url,
     };
 
-    axios
-      .post("http://localhost:5001/video/uploaddb", variable)
-      .then((response) => {
-        if (response.data.success) {
-          console.log("업로드성ㅅ오공송공공");
-        } else {
-          alert("비디오 업로드에 실패 했습니다. ");
-        }
-      });
+    axios.post("http://localhost:5001/video/uploaddb", variable).then((res) => {
+      if (res.data.success) {
+        video_id = res.data.objectid;
+      } else {
+        alert("비디오 업로드에 실패 했습니다. ");
+      }
+    });
+  };
+
+  const SaveResult = () => {
+    const variable = {
+      //  state에서 id 를 가지고 있기 때문에 리덕스를 통해서 가져오면 된다.
+      user: userid,
+      video: video_id,
+      word: words,
+      left_eye: left_eye_list,
+      right_eye: right_eye_list,
+      angryvalue: angry,
+      happyvalue: happy,
+      disgustedvalue: disgusted,
+      neutralvalue: neutral,
+      sadvalue: sad,
+      surprisedvalue: surprised,
+      fearfulvalue: fearful,
+      question: select_question,
+      category: select_category,
+      fileurl: "http://localhost:5001/" + file_url,
+      date: todayDate[0],
+    };
+    axios.post("http://localhost:5001/result/post", variable).then((res) => {
+      if (res.data.success) {
+        console.log(res.data);
+      } else {
+        console.log(res.err);
+      }
+    });
   };
 
   // 현재 날짜 구하기 (년/월/일)
@@ -493,7 +522,7 @@ const AudioRecord = () => {
     let minutes =
       now.getMinutes() > 9 ? now.getMinutes() : "0" + now.getMinutes();
     let seconds =
-      now.getSeconds() > 9 ? now.getSeconds() : "0" + now.getSeconds; // 초
+      now.getSeconds() > 9 ? now.getSeconds() : "0" + now.getSeconds(); // 초
     return todayYear + todayMonth + todayDate + "_" + hours + minutes + seconds;
   };
 
@@ -556,7 +585,13 @@ const AudioRecord = () => {
               녹음 시작
             </button>
           )}
-          <button id="checkResultBtn" onClick={checkResult}>
+          <button
+            id="checkResultBtn"
+            onClick={() => {
+              checkResult();
+              SaveResult();
+            }}
+          >
             결과 확인
           </button>
         </div>

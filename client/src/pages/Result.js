@@ -19,10 +19,13 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Bar, Pie, Radar  } from "react-chartjs-2";
+import { Bar, Pie, Radar } from "react-chartjs-2";
 
-let file_name;
 let file_url;
+let todayDate;
+let todayyear;
+let todaymonth;
+let todayday;
 
 // 질문
 let select_question;
@@ -62,25 +65,17 @@ const options = {
 
 //const size = [500, 300]; // 크기 조정
 
-// 현재 날짜 구하기 (년/월/일)
-const todayFormal = () => {
-  let now = new Date();
-  let todayYear = now.getFullYear();
-  let todayMonth =
-    now.getMonth() + 1 > 9 ? now.getMonth() + 1 : "0" + (now.getMonth() + 1);
-  let todayDate = now.getDate() > 9 ? now.getDate() : "0" + now.getDate();
-  return todayYear + "년 " + todayMonth + "월 " + todayDate + "일";
-};
-
 function Result() {
-  // 시간
-  let todayDate = todayFormal();
-
   const location = useLocation();
+
+  // 시간
+  todayDate = location.state.date;
+  todayyear = todayDate.substring(0, 4);
+  todaymonth = todayDate.substring(4, 6);
+  todayday = todayDate.substring(6);
 
   select_question = location.state.question;
   select_category = location.state.category;
-  file_name = location.state.filename;
   file_url = location.state.fileurl;
 
   const username = useSelector((state) => state.User.name);
@@ -88,24 +83,22 @@ function Result() {
   const a = location.state.word;
   words = location.state.word;
 
-
-
   //words 배열을 깊은복사
-  var chartwords=words.slice();
-  chartwords[0]=0;
+  var chartwords = words.slice();
+  chartwords[0] = 0;
 
   //value값 내림차순 정렬
-  chartwords.sort((a,b)=>{
-    return b.value-a.value
+  chartwords.sort((a, b) => {
+    return b.value - a.value;
   });
 
   //상위 10개 자르기
-  if (chartwords.length>=10){
-    chartwords.length=10;
+  if (chartwords.length >= 10) {
+    chartwords.length = 10;
   }
 
   //word를 단어와 갯수로 분리
-  var wordlabel =[];
+  var wordlabel = [];
   for (var i = 0; i < chartwords.length; i++) {
     wordlabel[i] = chartwords[i].text;
   }
@@ -261,27 +254,26 @@ function Result() {
     ],
   };
 
-  const WordPieOptions={    
+  const WordPieOptions = {
     plugins: {
       title: {
-        display:true,
-        text:'빈도수 상위 10개 단어',
-        font:{ size:17, weight:'normal'},
-        padding:{
-          bottom:20,
-        }
+        display: true,
+        text: "빈도수 상위 10개 단어",
+        font: { size: 17, weight: "normal" },
+        padding: {
+          bottom: 20,
+        },
       },
       legend: {
         display: true,
-        position:"right",
-        labels:{
-          boxWidth:20,
-          usePointStyle:true,
-          pointStyle:'circle',
-        }
+        position: "right",
+        labels: {
+          boxWidth: 20,
+          usePointStyle: true,
+          pointStyle: "circle",
+        },
       },
     },
-
   };
 
   // word PieChart data
@@ -292,7 +284,18 @@ function Result() {
       {
         label: "단어 빈도",
         data: worddata,
-        backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)','#B1B2FF','#FFD1D1','#C4DFAA','#9ADCFF'],
+        backgroundColor: [
+          "rgb(255, 99, 132)",
+          "rgb(255, 159, 64)",
+          "rgb(255, 205, 86)",
+          "rgb(75, 192, 192)",
+          "rgb(54, 162, 235)",
+          "rgb(153, 102, 255)",
+          "#B1B2FF",
+          "#FFD1D1",
+          "#C4DFAA",
+          "#9ADCFF",
+        ],
         hoverOffset: 4,
       },
     ],
@@ -303,17 +306,16 @@ function Result() {
     labels: ["분노", "행복", "혐오", "침착", "슬픔", "놀람", "긴장"],
     datasets: [
       {
-        label: '감정 지수(%)',
+        label: "감정 지수(%)",
         data: [angry, happy, disgusted, neutral, sad, surprised, fearful],
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        borderColor: "rgba(255, 99, 132, 1)",
         borderWidth: 1,
       },
     ],
   };
 
   // DrawUserImage();
-  console.log(file_url);
 
   return (
     <div
@@ -333,7 +335,9 @@ function Result() {
           <div className="entity">
             {" "}
             <div className="type">검사 일시</div>{" "}
-            <div className="content">{todayDate}</div>{" "}
+            <div className="content">
+              {todayyear}년 {todaymonth}월 {todayday}일
+            </div>{" "}
           </div>
           <div className="entity">
             {" "}
@@ -352,7 +356,8 @@ function Result() {
           </div>
           <div className="analyzeimage">
             <div id="interviewVideo">
-              <video id="video"
+              <video
+                id="video"
                 controls="controls"
                 autoPlay="autoplay"
                 loop="loop"
@@ -383,30 +388,32 @@ function Result() {
 
         {/* 분석결과출력디브 */}
         <div className="resultArea">
-        <div className="hr"></div>
-        {/* 표정 분석 */}
-        <div id="face">
+          <div className="hr"></div>
+          {/* 표정 분석 */}
+          <div id="face">
             <div className="subtitle">
               <h3> 표정 분석 </h3>
             </div>
             <div className="analyzeimage">
-            <div className="leftdiv">
-              <Bar className="inner"
-                options={FaceBarOptions}
-                height={340}
-                data={FaceBarData}
-              />
-            </div>
-            <div className="rightdiv">
-              <Radar className="inner" data={FaceRadarData}/>
-            </div>
+              <div className="leftdiv">
+                <Bar
+                  className="inner"
+                  options={FaceBarOptions}
+                  height={340}
+                  data={FaceBarData}
+                />
+              </div>
+              <div className="rightdiv">
+                <Radar className="inner" data={FaceRadarData} />
+              </div>
             </div>
             <div className="Explanation">
               <p className="explanation-header">해석</p>
               <p className="explanation-contenet">
                 {" "}
                 표정에 대한 분석 결과입니다. <br />
-                프레임별 표정에 대한 퍼센트 결과, 표정 변화로 본 감정에 대한 결과를 제공합니다.{" "}
+                프레임별 표정에 대한 퍼센트 결과, 표정 변화로 본 감정에 대한
+                결과를 제공합니다.{" "}
               </p>
             </div>
           </div>
@@ -453,10 +460,18 @@ function Result() {
             </div>
             <div className="analyzeimage">
               <div className="leftdiv">
-                <ReactWordcloud className="inner" options={options} words={words} />
+                <ReactWordcloud
+                  className="inner"
+                  options={options}
+                  words={words}
+                />
               </div>
               <div className="rightdiv">
-              <Pie className="inner" options={WordPieOptions} data={WordPieData} />
+                <Pie
+                  className="inner"
+                  options={WordPieOptions}
+                  data={WordPieData}
+                />
                 {/* <Bar
                   options={wordChartOptions}
                   data={wordChartData}
