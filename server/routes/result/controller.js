@@ -17,6 +17,14 @@ const postresult = (req, res) => {
 // DB에서 가져오기
 const getresult = (req, res) => {
   console.log("getresult");
+
+  // 비디오 관련 정보 가져오기
+  Result.find({ video: req.params.videoid })
+    .populate("video") //populate를 해줘야 video관련 데이터를 가져올수 있다. 안하면 id만 가져옴
+    .exec((err, result) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).json({ success: true, result });
+    });
 };
 
 module.exports = {
