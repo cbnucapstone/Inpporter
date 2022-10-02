@@ -210,7 +210,7 @@ function Result() {
   // face BarChart options
   const FaceBarOptions = {
     indexAxis: "y",
-    // maintainAspectRatio: false, //그래프 비율 유지
+    maintainAspectRatio: false, //그래프 비율 유지
     responsive: true,
     elements: {
       bar: {
