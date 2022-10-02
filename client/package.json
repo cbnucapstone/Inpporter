@@ -25,6 +25,7 @@
     "chart.js": "^3.9.1",
     "get-blob-duration": "^1.2.0",
     "react": "^17.0.2",
+    "react-audio-waveform": "^0.0.5",
     "react-bootstrap": "^2.2.3",
     "react-chartjs-2": "^4.3.1",
     "react-dom": "^17.0.2",

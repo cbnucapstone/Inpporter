@@ -1,8 +1,10 @@
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/Result.css";
 import ReactWordcloud from "react-wordcloud";
 import { useSelector } from "react-redux";
 import * as React from "react";
+import Waveform from "react-audio-waveform";
 
 // react chartjs-2
 import {
@@ -48,19 +50,19 @@ let sad = 0;
 let surprised = 0;
 
 const options = {
-  //  colors: ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b"],
-  //  enableTooltip: true,
-  //  deterministic: false,
-  //  fontFamily: "impact",
-  fontSizes: [25, 60], //글씨의 최대, 최소 사이즈
-  //  fontStyle: "normal",
-  //  fontWeight: "normal",
+  fontSizes: [25, 60],
   padding: 1,
-  //  rotations: 3,
-  //  rotationAngles: [0, 90],
-  //  scale: "sqrt",
-  //  spiral: "archimedean",
   transitionDuration: 1000,
+  colors: ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b"],
+  enableTooltip: true,
+  deterministic: false,
+  fontFamily: "impact",
+  fontStyle: "normal",
+  fontWeight: "normal",
+  rotations: 3,
+  rotationAngles: [0, 90],
+  scale: "sqrt",
+  spiral: "archimedean",
 };
 
 //const size = [500, 300]; // 크기 조정
@@ -77,6 +79,14 @@ function Result() {
   select_question = location.state.question;
   select_category = location.state.category;
   file_url = location.state.fileurl;
+
+  // const max1 = location.state.max; 
+  // const max2 = location.state.max2; 
+  const audioResult1 = location.state.audioResult1; 
+  const audioResult2 = location.state.audioResult2; 
+  const duration = location.state.duration;
+
+  const transcript = location.state.script; //질문 답변
 
   const username = useSelector((state) => state.User.name);
 
@@ -315,6 +325,71 @@ function Result() {
     ],
   };
 
+  const VoiceBarOptions = {
+    indexAxis: "x",
+    maintainAspectRatio: false, //그래프 비율 유지
+    responsive: true,
+    maxBarThickness: 10,
+    elements: {
+      bar: {
+        borderWidth: 0,
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+        labels: {
+          padding: 0,
+        },
+      },
+      title: {
+        display: true,
+        text: "목소리 크기 분석 결과",
+      },
+    },
+    scales: {
+      xAxis: {
+        scaleLabel: {
+          display: false,
+        },
+        ticks: {
+          display: false,
+        },
+        gridLines: {
+          display: false,
+        },
+        grid: {
+          display: false,
+          drawThicks: false,
+        },
+      },
+      yAxis: {
+        grid: {
+          display: false,
+          drawThicks: false,
+        },
+        ticks: {
+          stepSize: 1,
+        },
+        max: 5,
+        min: 0,
+      },
+    },
+  };
+
+  const VoiceBarData = {
+      labels: audioResult1,
+      datasets: [
+        {
+          data: audioResult1,
+          label: "목소리 크기",
+          borderColor: "#FF6869",
+          backgroundColor: "#FF6869",
+          // fill: true,
+        },
+      ],
+    };
+
   // DrawUserImage();
 
   return (
@@ -375,13 +450,7 @@ function Result() {
           <div className="Explanation">
             <p className="explanation-header">답변</p>
             <p className="explanation-contenet">
-              {" "}
-              면접시 저장되었던 영상을 보여줍니다. <br />
-              이러한 영상을 통해 자신의 얼굴표정, 면접태도, 답변 내용을 확인할
-              수 있습니다. 이러한 확인을 통해 시선처리와 좋지 않은 답변 습관
-              등을 확인할 수 있습니다. AI면접은 답변 내용도 중요하지만 이러한
-              안면인식 및 안면분석을 통해 저어와 호감도를 분석한 결과도 중요하기
-              때문에 이러한 분석은 매우 중요합니다.{" "}
+            {transcript}
             </p>
           </div>
         </div>
@@ -494,8 +563,24 @@ function Result() {
               <h3> 목소리 분석 </h3>
             </div>
             <div className="analyzeimage">
-              <div className="leftdiv"></div>
-              <div className="rightdiv"></div>
+              <div className="leftdiv">
+                <Bar className="inner"
+                  options={VoiceBarOptions}
+                  // width={360}
+                  // height={360}
+                  data={VoiceBarData}
+                />
+              </div>
+              <div id="waveformdiv">
+                <Waveform id="waveform"
+                  barWidth={1}
+                  peaks={audioResult2}
+                  height={200}
+                  duration={duration}
+                  color="#B1B2FF"
+                  progressGradientColors={[[0, "#B1B2FF"]]}
+                />
+              </div>
             </div>
             <div className="Explanation">
               <p className="explanation-header">해석</p>

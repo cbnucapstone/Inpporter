@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import "antd/dist/antd.min.css";
 import { Col, Row } from "antd";
 import axios from "axios";
-import "antd/dist/antd.css";
 import "../styles/ResultList.css";
 
 function ResultList() {

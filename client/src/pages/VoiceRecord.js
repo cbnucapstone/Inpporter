@@ -1,6 +1,6 @@
 import React from "react";
-import { useRef, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Component, useRef, useState } from "react";
+import {  BrowserRouter, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -71,12 +71,23 @@ const AudioRecord = () => {
   const canvasRef = useRef(null);
   const canvasRef_thumbnail = useRef(null);
 
-  const {
-    transcript,
-    listening,
-    // resetTranscript,
-    // browserSupportsSpeechRecognition,
-  } = useSpeechRecognition();
+  // 목소리 분석 사용 변수
+  const [stream, setStream] = useState();
+  const [media, setMedia] = useState();
+  const [onRec, setOnRec] = useState(true);
+  const [source, setSource] = useState();
+  const [analyser, setAnalyser] = useState();
+  const [audioUrl, setAudioUrl] = useState();
+  const hi = React.useRef();
+  const [audioResult1] = useState([]);
+  const [audioResult2] = useState([]);
+  var [firstTime, setFirstTime] = useState(0);
+  var lastTime = useState(0);
+  var [duration, setDuration] = useState(0);
+  var max1 = useState();
+  var max2 = useState();
+
+  const { transcript, listening } = useSpeechRecognition();
 
   const a = transcript.split(" ");
   const [name, setName] = useState();
@@ -253,6 +264,10 @@ const AudioRecord = () => {
     // wordcloud code
     words.push({ text: "hi", value: 1 });
 
+    // 음성 분석별 최대값 구해두기
+    max1 = Math.max.apply(Math, audioResult1); //목소리 크기
+    max2 = Math.max.apply(Math, audioResult2); //목소리 높낮이
+
     // 표정인식 결과 퍼센트계산
     sum = angry + happy + disgusted + neutral + sad + surprised + fearful;
 
@@ -305,9 +320,150 @@ const AudioRecord = () => {
         fileurl: "http://localhost:5001/" + file_url,
 
         date: todayDate[0],
+
+        audioResult1:audioResult1,
+        audioResult2:audioResult2,
+        max1:max1,
+        max2:max2,
+        duration:duration,
+
+        script: transcript,
       },
     });
   };
+
+  // 음성 녹음 함수
+  const onRecAudio = async () => {
+    let now = new Date();
+    setFirstTime(
+      now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds()
+    );
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)(); //audiocontext 객체 생성
+    const analyser = audioCtx.createScriptProcessor(0, 1, 1);
+    setAnalyser(analyser);
+
+    function makeSound(stream) {
+      // 내 컴퓨터의 마이크나 다른 소스를 통해 발생한 오디오 스트림의 정보
+      const source = audioCtx.createMediaStreamSource(stream); //sourcenode초기화(마이크소리)
+      setSource(source);
+      source.connect(analyser); //sourcenode를 analyzer로 연결
+      analyser.connect(audioCtx.destination);
+    }
+    // 마이크 사용 권한 획득
+    await navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.start();
+        setStream(stream);
+        setMedia(mediaRecorder);
+        makeSound(stream);
+
+        // stt 함수
+        SpeechRecognition.startListening({
+          continuous: true,
+          language: "ko",
+        });
+
+        analyser.onaudioprocess = function (e) {
+          //목소리 크기 분석을 위한 filteredData
+          const filteredData: number[] = []; // 데이터 filter 해서 저장하는 배열
+
+          const buffer = e.inputBuffer.getChannelData(0); //첫번째 채널의 audiobuffer
+          const blockSize = Math.floor(48000 / 100); //샘플링 구간의 사이즈 (48개의 구간을 나눠서 각 구간의 평균값 구하는과정)
+          let blockSum = 0;
+          const blockStart = blockSize; //샘플 구간 시작 포인트
+
+          for (let j = 0; j < blockSize; j++) {
+            blockSum = blockSum + Math.abs(buffer[blockStart + j]);
+          }
+          filteredData.push(blockSum / blockSize); //구간 평균치를 결과 배열에 추가
+          //console.log(blockSum / blockSize);
+
+          const normalizeData = async (filteredData: number[]) => {
+            //샘플링 데이터 정규화
+            const peak = Math.max(...filteredData); //샘플링데이터 최대값을 peak에 저장
+            const multiplier = Math.pow(peak, -1); //정규화
+            return filteredData.map(async (n) => n * multiplier);
+          };
+
+          for (let i = 0; i < filteredData.length; i++) {
+            filteredData[i]*=10;
+            audioResult1.push(filteredData[i]);
+          }
+
+
+          // 목소리 높낮이 분석을 위한 filteredData2
+          const filteredData2: number[] = []; // 데이터 filter 해서 저장하는 배열
+
+          const buffer2 = e.inputBuffer.getChannelData(0); //첫번째 채널의 audiobuffer
+          const blockSize2 = Math.floor(48000 / 1000); //샘플링 구간의 사이즈 (48개의 구간을 나눠서 각 구간의 평균값 구하는과정)
+          let blockSum2 = 0;
+          const blockStart2 = blockSize2; //샘플 구간 시작 포인트
+
+          for (let j = 0; j < blockSize2; j++) {
+            blockSum2 = blockSum2 + Math.abs(buffer2[blockStart2 + j]);
+          }
+          filteredData2.push(blockSum2 / blockSize2); //구간 평균치를 결과 배열에 추가
+
+          const normalizeData2 = async (filteredData2: number[]) => {
+            //샘플링 데이터 정규화
+            const peak2 = Math.max(...filteredData2); //샘플링데이터 최대값을 peak에 저장
+            const multiplier2 = Math.pow(peak2, -1); //정규화
+            return filteredData2.map(async (n) => n * multiplier2);
+          };
+
+          for (let i = 0; i < filteredData2.length; i++) {
+            audioResult2.push(filteredData2[i]);
+          }
+
+          // 3분(180초) 지나면 자동으로 음성 저장 및 녹음 중지
+          if (e.playbackTime > 180) {
+            stream.getAudioTracks().forEach(function (track) {
+              track.stop();
+            });
+            mediaRecorder.stop();
+            // 메서드가 호출 된 노드 연결 해제
+            analyser.disconnect();
+            audioCtx.createMediaStreamSource(stream).disconnect();
+
+            mediaRecorder.ondataavailable = function (e) {
+              setAudioUrl(e.data);
+              setOnRec(true);
+            };
+          } else {
+            setOnRec(false);
+          }
+        };
+      });
+  };
+
+  // 사용자가 음성 녹음을 중지했을 때
+  const offRecAudio = () => {
+    let now1 = new Date();
+    lastTime =
+      now1.getHours() * 3600 + now1.getMinutes() * 60 + now1.getSeconds();
+    //duration = parseInt(lastTime) - parseInt(firstTime);
+    setDuration(parseInt(lastTime) - parseInt(firstTime));
+    // dataavailable 이벤트로 Blob 데이터에 대한 응답을 받을 수 있음
+    media.ondataavailable = function (e) {
+      setAudioUrl(e.data);
+      setOnRec(true);
+    };
+
+    // 모든 트랙에서 stop()을 호출해 오디오 스트림을 정지
+    stream.getAudioTracks().forEach(function (track) {
+      track.stop();
+    });
+
+    // 미디어 캡처 중지
+    media.stop();
+    // 메서드가 호출 된 노드 연결 해제
+    analyser.disconnect();
+    source.disconnect();
+    SpeechRecognition.stopListening();
+  };
+
 
   // 녹화 시작
   const VideoCaptureStart = () => {
@@ -565,6 +721,7 @@ const AudioRecord = () => {
                 SpeechRecognition.stopListening();
                 startOrStop();
                 VideoCaptureEnd();
+                offRecAudio();
               }}
             >
               녹음 종료
@@ -580,6 +737,7 @@ const AudioRecord = () => {
                 startOrStop();
                 VideoCaptureStart();
                 capture_thumbnail();
+                onRecAudio();
               }}
             >
               녹음 시작
