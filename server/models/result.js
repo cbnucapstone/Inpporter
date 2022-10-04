@@ -68,6 +68,12 @@ const resultSchema = mongoose.Schema({
     type: String,
     default: undefined,
   },
+  audioResult1: [Number],
+  audioResult2: [Number],
+  max1: { type: Number, default: undefined },
+  max2: { type: Number, default: undefined },
+  duration: { type: Number, default: undefined },
+  script: { type: String, default: undefined },
 });
 
 // Result 모델 객체 생성

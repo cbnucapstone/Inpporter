@@ -1,6 +1,6 @@
 import React from "react";
 import { Component, useRef, useState } from "react";
-import {  BrowserRouter, useNavigate, useLocation } from "react-router-dom";
+import { BrowserRouter, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
@@ -29,7 +29,7 @@ let thumbnail_url;
 let file_duration;
 let filenameset;
 let video_id;
-let todayDate;
+let today;
 
 const words = [];
 
@@ -297,7 +297,7 @@ const AudioRecord = () => {
       });
     }
 
-    todayDate = filenameset.split("_");
+    today = filenameset.split("_");
 
     navigate("/result", {
       state: {
@@ -319,13 +319,13 @@ const AudioRecord = () => {
 
         fileurl: "http://localhost:5001/" + file_url,
 
-        date: todayDate[0],
+        date: today[0],
 
-        audioResult1:audioResult1,
-        audioResult2:audioResult2,
-        max1:max1,
-        max2:max2,
-        duration:duration,
+        audioResult1: audioResult1,
+        audioResult2: audioResult2,
+        max1: max1,
+        max2: max2,
+        duration: duration,
 
         script: transcript,
       },
@@ -388,10 +388,9 @@ const AudioRecord = () => {
           };
 
           for (let i = 0; i < filteredData.length; i++) {
-            filteredData[i]*=10;
+            filteredData[i] *= 10;
             audioResult1.push(filteredData[i]);
           }
-
 
           // 목소리 높낮이 분석을 위한 filteredData2
           const filteredData2: number[] = []; // 데이터 filter 해서 저장하는 배열
@@ -463,7 +462,6 @@ const AudioRecord = () => {
     source.disconnect();
     SpeechRecognition.stopListening();
   };
-
 
   // 녹화 시작
   const VideoCaptureStart = () => {
@@ -617,7 +615,6 @@ const AudioRecord = () => {
   };
 
   const SaveDB = () => {
-    console.log(file_duration);
     const variable = {
       //  state에서 id 를 가지고 있기 때문에 리덕스를 통해서 가져오면 된다.
       user: userid,
@@ -656,7 +653,13 @@ const AudioRecord = () => {
       question: select_question,
       category: select_category,
       fileurl: "http://localhost:5001/" + file_url,
-      date: todayDate[0],
+      date: today[0],
+      audioResult1: audioResult1,
+      audioResult2: audioResult2,
+      max1: max1,
+      max2: max2,
+      duration: duration,
+      script: transcript,
     };
     axios.post("http://localhost:5001/result/post", variable).then((res) => {
       if (res.data.success) {
@@ -679,7 +682,15 @@ const AudioRecord = () => {
       now.getMinutes() > 9 ? now.getMinutes() : "0" + now.getMinutes();
     let seconds =
       now.getSeconds() > 9 ? now.getSeconds() : "0" + now.getSeconds(); // 초
-    return todayYear + todayMonth + todayDate + "_" + hours + minutes + seconds;
+    return (
+      String(todayYear) +
+      String(todayMonth) +
+      String(todayDate) +
+      "_" +
+      hours +
+      minutes +
+      seconds
+    );
   };
 
   return (

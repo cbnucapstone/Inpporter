@@ -51,6 +51,14 @@ function ResultList() {
               fileurl: res.data.result[0].fileurl,
 
               date: res.data.result[0].date,
+
+              audioResult1: res.data.result[0].audioResult1,
+              audioResult2: res.data.result[0].audioResult2,
+              max1: res.data.result[0].max1,
+              max2: res.data.result[0].max2,
+              duration: res.data.result[0].duration,
+
+              script: res.data.result[0].script,
             },
           });
         } else {

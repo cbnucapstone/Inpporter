@@ -72,6 +72,7 @@ function Result() {
 
   // 시간
   todayDate = location.state.date;
+  console.log(todayDate);
   todayyear = todayDate.substring(0, 4);
   todaymonth = todayDate.substring(4, 6);
   todayday = todayDate.substring(6);
@@ -80,10 +81,10 @@ function Result() {
   select_category = location.state.category;
   file_url = location.state.fileurl;
 
-  // const max1 = location.state.max; 
-  // const max2 = location.state.max2; 
-  const audioResult1 = location.state.audioResult1; 
-  const audioResult2 = location.state.audioResult2; 
+  // const max1 = location.state.max;
+  // const max2 = location.state.max2;
+  const audioResult1 = location.state.audioResult1;
+  const audioResult2 = location.state.audioResult2;
   const duration = location.state.duration;
 
   const transcript = location.state.script; //질문 답변
@@ -378,17 +379,17 @@ function Result() {
   };
 
   const VoiceBarData = {
-      labels: audioResult1,
-      datasets: [
-        {
-          data: audioResult1,
-          label: "목소리 크기",
-          borderColor: "#FF6869",
-          backgroundColor: "#FF6869",
-          // fill: true,
-        },
-      ],
-    };
+    labels: audioResult1,
+    datasets: [
+      {
+        data: audioResult1,
+        label: "목소리 크기",
+        borderColor: "#FF6869",
+        backgroundColor: "#FF6869",
+        // fill: true,
+      },
+    ],
+  };
 
   // DrawUserImage();
 
@@ -449,9 +450,7 @@ function Result() {
           </div>
           <div className="Explanation">
             <p className="explanation-header">답변</p>
-            <p className="explanation-contenet">
-            {transcript}
-            </p>
+            <p className="explanation-contenet">{transcript}</p>
           </div>
         </div>
 
@@ -564,7 +563,8 @@ function Result() {
             </div>
             <div className="analyzeimage">
               <div className="leftdiv">
-                <Bar className="inner"
+                <Bar
+                  className="inner"
                   options={VoiceBarOptions}
                   // width={360}
                   // height={360}
@@ -572,7 +572,8 @@ function Result() {
                 />
               </div>
               <div id="waveformdiv">
-                <Waveform id="waveform"
+                <Waveform
+                  id="waveform"
                   barWidth={1}
                   peaks={audioResult2}
                   height={200}
