@@ -3,7 +3,6 @@ import React from "react";
 import QuestionItem from "./QuestionItem";
 
 const QuestionItemList = ({ title, questionList, listdata }) => {
-  console.log(listdata);
   return (
     <div className="list">
       {/* props로부터 title 값을 전달 받음 */}

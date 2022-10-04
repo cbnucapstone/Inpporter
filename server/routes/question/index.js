@@ -11,9 +11,6 @@ questionRouter.get('/:userid/:selected',question.getSelected);
 //write(질문입력)
 questionRouter.post('/write', question.write);
 
-//edit(질문수정)
-questionRouter.get('/edit/:id',question.edit);
-
 //update(질문업데이트)
 questionRouter.post('/update/:id', question.update);
 

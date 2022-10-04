@@ -15,8 +15,6 @@ const QuestionItem = ({ questionItem }) => {
   }, [edited]);
 
   const onClickDeleteBtn = (e) => {
-    console.log(e);
-
     if (window.confirm("정말로 삭제하시겠습니까?")) {
       axios.post(`http://localhost:5001/question/delete/${e}`, e);
     }
@@ -24,14 +22,7 @@ const QuestionItem = ({ questionItem }) => {
   };
 
   const onClickEditBtn = (e) => {
-    setEdited(true);
-    console.log("온클릭");
-    console.log(e);
-    let body = {
-      text: newText,
-    };
-    axios.get(`http://localhost:5001/question/edit/${e}`, body);
-    console.log(body);
+    setEdited(true); 
   };
 
   // const onEnter = (e) => {
@@ -43,24 +34,20 @@ const QuestionItem = ({ questionItem }) => {
   //수정된 input값 가져오기
   const onChangeEditInput = (e) => {
     setNewText(e.target.value);
-    console.log("온체인지" + newText);
   };
 
   const onClickSubmitBtn = (e) => {
-    console.log(e);
     let body = {
       id: e,
       text: newText,
     };
-    console.log(newText);
     axios
       .post(`http://localhost:5001/question/update/${e}`, body)
       .then((res) => {
-        console.log("수정성공" + res);
         setEdited(false);
       })
       .catch((err) => {
-        console.log("수정실패");
+        console.log("수정 실패");
       });
     setEdited(false);
 
