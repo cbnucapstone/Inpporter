@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 //import PropTypes from "prop-types"; //npm install -save prop-types!!!
 import axios from "axios";
-import {useSelector} from 'react-redux';
+import { useSelector } from "react-redux";
 
 const InputBox = () => {
   //부모로부터 props로 두개 받아오기
@@ -10,14 +10,17 @@ const InputBox = () => {
   const [selected, setSelected] = useState("역량");
   const inputRef = useRef(null); //useref Hook으로 ref생성
 
-  const userid = useSelector(state=>state.User.id); //userid 받아쓰기 나즁에 수졍
-  console.log("받아진다아이딧")
-  console.log("userid : "+userid);
+  const userid = useSelector((state) => state.User.id); //userid 받아쓰기 나즁에 수졍
+  // console.log("받아진다아이딧")
+  // console.log("userid : "+userid);
 
   //input값 가져오기
-  const onChangeInput = (e) => {setText(e.target.value);};
-  const onSelectBox = (e) => {setSelected(e.target.value);};
-
+  const onChangeInput = (e) => {
+    setText(e.target.value);
+  };
+  const onSelectBox = (e) => {
+    setSelected(e.target.value);
+  };
 
   const onPressSubmitBtn = (e) => {
     //버튼 눌렀을 때 실행되는 부분
@@ -27,16 +30,14 @@ const InputBox = () => {
       alert("추가할 질문을 입력하세요");
       return false;
     } else {
-      let body={
-        userid:userid,
-        text:text,
-        selected:selected,
+      let body = {
+        userid: userid,
+        text: text,
+        selected: selected,
       };
-      axios
-      .post("http://localhost:5001/question/write",body)
-      .then((res)=>{
-        console.log(res);        
-      })
+      axios.post("http://localhost:5001/question/write", body).then((res) => {
+        console.log(res);
+      });
       setText("");
       inputRef.current.focus();
     }
@@ -49,7 +50,7 @@ const InputBox = () => {
         {/* Item 내용 입력하는 input */}
         {/* 질문 카테고리 입력 */}
         <select className="selectbox" onChange={onSelectBox} value={selected}>
-          {selectList.map((item)=>(
+          {selectList.map((item) => (
             <option value={item} key={item}>
               {item}
             </option>

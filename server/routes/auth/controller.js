@@ -1,5 +1,6 @@
 const { use } = require(".");
 const User = require("../../models/user");
+const Question = require("../../models/question");
 
 const register = (req, res) => {
   const user = new User(req.body);
@@ -9,6 +10,76 @@ const register = (req, res) => {
       console.log(err);
       return res.status(200).json({ success: false, err });
     }
+
+    let arr = [
+      {
+        userid: userInfo._id.toString(),
+        selected: "역량",
+        text: "지원한 직무 관련 경험을 말해주세요",
+      },
+      {
+        userid: userInfo._id.toString(),
+        selected: "역량",
+        text: "본인을 뽑아야 하는 이유는 무엇인지 설명해주세요",
+      },
+      {
+        userid: userInfo._id.toString(),
+        selected: "역량",
+        text: "지원한 직무 관련한 최근 이슈에 대해 말해주세요",
+      },
+      {
+        userid: userInfo._id.toString(),
+        selected: "지원동기",
+        text: "회사에 지원하게 된 동기는 무엇인가요?",
+      },
+      {
+        userid: userInfo._id.toString(),
+        selected: "지원동기",
+        text: "평상 시 우리 회사에 대해 어떻게 생각하고 있나요?",
+      },
+      {
+        userid: userInfo._id.toString(),
+        selected: "지원동기",
+        text: "해당 직무를 꿈꾸게 된 이유는 무엇인가요?",
+      },
+      {
+        userid: userInfo._id.toString(),
+        selected: "직무",
+        text: "지원한 직무는 어떤 업무라고 생각하나요",
+      },
+      {
+        userid: userInfo._id.toString(),
+        selected: "직무",
+        text: "지원한 직무로 입사하기 위해 그동안 어떻게 준비를 하였나요",
+      },
+      {
+        userid: userInfo._id.toString(),
+        selected: "직무",
+        text: "이 직무로 입사한다면 단기적 목표 및 장기적 목표는 무엇인가요?",
+      },
+      {
+        userid: userInfo._id.toString(),
+        selected: "기초인성",
+        text: "프로젝트 등을 진행하며 겪은 어려운 점과 해결 방법에 대해 말해주세요",
+      },
+      {
+        userid: userInfo._id.toString(),
+        selected: "기초인성",
+        text: "살면서 가장 힘들었던 일은 무엇인가요?",
+      },
+      {
+        userid: userInfo._id.toString(),
+        selected: "기초인성",
+        text: "본인의 장단점은 무엇인가요?",
+      },
+    ];
+
+    Question.insertMany(arr, function (error, docs) {
+      if (error) {
+        console.log(err);
+        return res.status(200).json({ success: false, err });
+      }
+    });
     return res.status(200).json({ success: true });
   });
 };

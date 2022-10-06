@@ -118,6 +118,7 @@ const AudioRecord = () => {
     try {
       const constraints = {
         video: true,
+        audio: true,
       };
       navigator.mediaDevices.getUserMedia(constraints).then(callback);
     } catch (err) {

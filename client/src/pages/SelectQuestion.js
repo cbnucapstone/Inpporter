@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SelectQuestion_Modal from "../pages/SelectQuestion_Modal";
 import "../styles/SelectQuestion.css";
 
 const SelectQuestion = () => {
   const [modalOpen, setmodalOpen] = useState(true);
+  const navigate = useNavigate();
 
   const openModal = () => {
     setmodalOpen(true);
   };
   const closeModal = () => {
     setmodalOpen(false);
+    navigate("/");
   };
   return (
     <div

@@ -4,14 +4,16 @@ import "../styles/Navbar.css";
 import { store } from "../reducer/store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const login = useSelector((state) => state.User.login);
-  console.log(login);
+  const navigate = useNavigate();
 
   const clickLogout = () => {
     store.dispatch({ type: "logout" });
     alert("로그아웃 되었습니다.");
+    navigate("/");
   };
 
   const first = (
@@ -51,7 +53,7 @@ function Navbar() {
           </span>
           <div className="navi-one">
             {login ? (
-              <Link to="analyzetype" className="nav-left">
+              <Link to="selectquestion" className="nav-left">
                 면접 연습하기
               </Link>
             ) : (
