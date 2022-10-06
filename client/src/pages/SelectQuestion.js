@@ -16,14 +16,25 @@ const SelectQuestion = () => {
   };
   return (
     <div
+      className="background"
+      style={{
+        backgroundImage: "url(./bgimg5.png)",
+        backgroundSize: "cover",
+        width: "100%",
+        height: "auto",
+        backgroundRepeat: "repeat-y",
+      }}
+    >
+    <div
       className="home"
-      style={{ backgroundImage: "url(./background-img.jpg)" }}
+      // style={{ backgroundImage: "url(./background-img.jpg)" }}
     >
       <SelectQuestion_Modal
         open={modalOpen}
         close={closeModal}
         header="연습할 질문을 선택해주세요"
       ></SelectQuestion_Modal>
+    </div>
     </div>
   );
 };

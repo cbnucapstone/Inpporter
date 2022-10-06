@@ -118,7 +118,7 @@ const AudioRecord = () => {
     try {
       const constraints = {
         video: true,
-        audio: true,
+        // audio: true,
       };
       navigator.mediaDevices.getUserMedia(constraints).then(callback);
     } catch (err) {
@@ -696,11 +696,13 @@ const AudioRecord = () => {
 
   return (
     <div
+      className="background"
       style={{
+        backgroundImage: "url(./bgimg5.png)",
+        backgroundSize: "cover",
         width: "100%",
-        height: "100%",
-        backgroundImage: "url(./background-img.jpg)",
-        backgroundRepeat: "no-repeat",
+        height: "auto",
+        backgroundRepeat: "repeat-y",
       }}
     >
       <div id="recordArea">

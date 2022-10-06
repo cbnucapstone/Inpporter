@@ -8,9 +8,8 @@ hr {
   width: 92%;
   height: auto;
   display: flex;
-  padding-top: 130px;
-  padding-bottom: 130px;
-  margin: 0% 4% 0% 4%;
+  padding: 5% 4% 5% 4%;
+  margin: 0 auto;
 }
 
 .result_container {

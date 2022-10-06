@@ -80,7 +80,7 @@ function ResultList() {
     var minute = temp[1].substring(2, 4);
     var second = temp[1].substring(4);
 
-    return (
+    return ( 
       <Col lg={6} xs={12} className="col">
         <div
           style={{ position: "relative" }}
@@ -116,11 +116,22 @@ function ResultList() {
   });
 
   return (
+    <div
+      className="background"
+      style={{
+        backgroundImage: "url(./bgimg5.png)",
+        backgroundSize: "contain",
+        width: "100%",
+        height: "auto",
+        backgroundRepeat: "repeat-y",
+      }}
+    >
     <div className="resultListPage">
       <div id="resultListPage_title">
         <h1>면접 분석 결과 리스트</h1>
       </div>
       <Row gutter={32}>{renderCards}</Row>
+    </div>
     </div>
   );
 }

@@ -64,6 +64,16 @@ function SignUpPage(){
     };
 
     return(
+        <div
+      className="background"
+      style={{
+        backgroundImage: "url(./bgimg5.png)",
+        backgroundSize: "contain",
+        width: "100%",
+        height: "auto",
+        backgroundRepeat: "repeat-y",
+      }}
+    >
         <form class="SignForm" onSubmit={onSubmitHandler}>
         <h2 class="SignUpHeader">Inpporter Sign Up</h2>
             <div class="SignContent">
@@ -111,7 +121,8 @@ function SignUpPage(){
                 <button type="submit" id="SignUpSubmit" class="Btn">회원가입</button>
             </div>       
     </form>
+    </div>
 
-    )
-}
+    );
+};
 export default SignUpPage;

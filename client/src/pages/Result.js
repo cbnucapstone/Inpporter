@@ -395,8 +395,18 @@ function Result() {
 
   return (
     <div
+      className="background"
+      style={{
+        backgroundImage: "url(./bgimg5.png)",
+        backgroundSize: "contain",
+        width: "100%",
+        height: "auto",
+        backgroundRepeat: "repeat-y",
+      }}
+    >
+    <div
       className="Result"
-      style={{ backgroundImage: "url(./background-img.jpg)" }}
+      // style={{ backgroundImage: "url(./background-img.jpg)" }}
     >
       <div className="result_container">
         <div id="resulttitle">
@@ -594,6 +604,7 @@ function Result() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

@@ -1,7 +1,9 @@
 .Question {
   width: 92%;
   display: flex;
-  margin: 0% 4% 4% 4%;
+  padding: 5% 4% 5% 4%;
+  margin: 0 auto;
+  /* padding-top: 70px; */
 }
 
 /* Home Page Container */
@@ -10,7 +12,7 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  padding-top: 150px;
+  /* padding-top: 100px; */
 }
 
 .category_contatiner{

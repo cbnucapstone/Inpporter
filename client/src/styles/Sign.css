@@ -1,12 +1,11 @@
 .SignForm {
     width: 100%;
     display: flex;
-    background: white;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding-top:100px;
-    padding-bottom: 40px;
+    padding-top:80px;
+    padding-bottom: 80px;
 }
 
 .SignForm h2{
@@ -35,7 +34,7 @@
 
 .Btns{    
     margin-top:10px;
-    margin-left:40px;
+    /* margin-left:40px; */
     width: 550px;
 }
 

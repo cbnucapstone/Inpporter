@@ -1,18 +1,16 @@
 #btnArea {
   padding-top: 1%;
-  padding-bottom: 5%;
+  padding-bottom: 3%;
   display: flex;
-  background: white;
   justify-content: center;
   align-items: center;
   flex-direction: row;
 }
 
 #recordTitle {
-  padding-top: 14%;
+  /* padding-top: 14%; */
   padding-bottom: 2%;
   display: flex;
-  background: white;
   justify-content: center;
   align-items: center;
   flex-direction: row;
@@ -52,9 +50,7 @@
 
 #videoArea {
   display: inline-block;
-  padding-top: 2%;
   padding-bottom: 2%;
-  /*background-color: rgba(245, 240, 215, 0.5);*/
 }
 
 #checkResultBtn:hover {
@@ -76,4 +72,5 @@
 }
 #recordArea {
   text-align: center;
+  padding: 6% 4% 6% 4%;
 }

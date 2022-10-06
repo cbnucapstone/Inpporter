@@ -1,13 +1,14 @@
 .navbar {
   width: 92%;
   height: 100px;
-  position: fixed;
+  /* position: fixed; */
   display: flex;
   /*justify-content: space-between;*/
   align-items: center;
   font-weight: bold;
   border-bottom: 3px solid #9FB4FF;
-  margin-left:4%;
+  margin: 0 auto;
+  /* margin-left:4%; */
   background-color: white;
   z-index: 1;
 }

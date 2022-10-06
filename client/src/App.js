@@ -20,6 +20,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Navbar />
+        {/* <div className="background" style={{backgroundImage: 'url(./bgimg2.png)',  backgroundSize: 'cover', width: '100%', height:'auto', backgroundRepeat: 'repeat-y', }}> */}
         <Routes>
           <Route path="/" element={<Home />} />
           {/* <Route path="/analyzetype" element={<AnalyzeType />} /> */}
@@ -31,6 +32,7 @@ function App() {
           <Route path="/selectquestion" element={<SelectQuestion />} />
           <Route path="/resultList" element={<ResultList />} />
         </Routes>
+        {/* </div> */}
         <Footer />
       </BrowserRouter>
     </div>
