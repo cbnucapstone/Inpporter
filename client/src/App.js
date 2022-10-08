@@ -8,7 +8,7 @@ import Home from "./pages/Home.js";
 import SignInPage from "./pages/SignIn";
 import SignUpPage from "./pages/SignUp";
 import Question from "./pages/Question";
-import Result from "./pages/Result";
+import ClassComponent from "./pages/Result";
 import Dictaphone from "./pages/VoiceRecord";
 import SelectQuestion from "./pages/SelectQuestion";
 import ResultList from "./pages/ResultList";
@@ -27,7 +27,7 @@ function App() {
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/question" element={<Question />} />
-          <Route path="/result" element={<Result />} />
+          <Route path="/result" element={<ClassComponent />} />
           <Route path="/voicerecord" element={<Dictaphone />} />
           <Route path="/selectquestion" element={<SelectQuestion />} />
           <Route path="/resultList" element={<ResultList />} />
