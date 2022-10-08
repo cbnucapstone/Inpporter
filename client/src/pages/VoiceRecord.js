@@ -78,7 +78,7 @@ const AudioRecord = () => {
   const [source, setSource] = useState();
   const [analyser, setAnalyser] = useState();
   const [audioUrl, setAudioUrl] = useState();
-  const hi = React.useRef();
+  // const hi = React.useRef();
   const [audioResult1] = useState([]);
   const [audioResult2] = useState([]);
   var [firstTime, setFirstTime] = useState(0);
@@ -263,7 +263,7 @@ const AudioRecord = () => {
 
   const checkResult = () => {
     // wordcloud code
-    words.push({ text: "hi", value: 1 });
+    // words.push({ text: "hi", value: 1 });
 
     // 음성 분석별 최대값 구해두기
     max1 = Math.max.apply(Math, audioResult1); //목소리 크기
@@ -288,7 +288,7 @@ const AudioRecord = () => {
         words.push({ text: a[i], value: 1 });
       }
     }
-    setName("hi");
+    // setName("hi");
 
     if (playing) {
       const s = videoRef.current.srcObject;

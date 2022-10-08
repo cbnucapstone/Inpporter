@@ -5,6 +5,10 @@ import ReactWordcloud from "react-wordcloud";
 import { useSelector } from "react-redux";
 import * as React from "react";
 import Waveform from "react-audio-waveform";
+import { BsFillPrinterFill } from "react-icons/bs";
+
+import { useRef } from "react";
+import ReactToPrint from "react-to-print";
 
 // react chartjs-2
 import {
@@ -68,6 +72,8 @@ const options = {
 //const size = [500, 300]; // 크기 조정
 
 function Result() {
+  let ReactDOM = require("react-dom");
+
   const location = useLocation();
 
   // 시간
@@ -96,7 +102,6 @@ function Result() {
 
   //words 배열을 깊은복사
   var chartwords = words.slice();
-  chartwords[0] = 0;
 
   //value값 내림차순 정렬
   chartwords.sort((a, b) => {
@@ -222,10 +227,10 @@ function Result() {
   const FaceBarOptions = {
     indexAxis: "y",
     maintainAspectRatio: false, //그래프 비율 유지
-    responsive: true,
+    responsive: false,
     elements: {
       bar: {
-        borderWidth: 2,
+        borderWidth: 1,
       },
     },
     plugins: {
@@ -233,8 +238,7 @@ function Result() {
         display: false,
       },
       title: {
-        display: true,
-        text: "표정인식결과",
+        display: false,
       },
     },
     scales: {
@@ -268,8 +272,7 @@ function Result() {
   const WordPieOptions = {
     plugins: {
       title: {
-        display: true,
-        text: "빈도수 상위 10개 단어",
+        display: false,
         font: { size: 17, weight: "normal" },
         padding: {
           bottom: 20,
@@ -344,8 +347,7 @@ function Result() {
         },
       },
       title: {
-        display: true,
-        text: "목소리 크기 분석 결과",
+        display: false,
       },
     },
     scales: {
@@ -390,223 +392,284 @@ function Result() {
       },
     ],
   };
-
   // DrawUserImage();
 
   return (
-    <div
-      className="background"
-      style={{
-        backgroundImage: "url(./bgimg5.png)",
-        backgroundSize: "contain",
-        width: "100%",
-        height: "auto",
-        backgroundRepeat: "repeat-y",
-      }}
-    >
-    <div
-      className="Result"
-      // style={{ backgroundImage: "url(./background-img.jpg)" }}
-    >
-      <div className="result_container">
-        <div id="resulttitle">
-          <h2> 면접 분석 결과 </h2>
+    <div id="resultdiv">
+      <div id="resulttitle">
+        <h2> 면접 분석 결과 </h2>
+      </div>
+      <div className="info">
+        <div className="entity">
+          {" "}
+          <div className="type">이름</div>{" "}
+          <div className="content">{username}</div>{" "}
         </div>
-        <div className="info">
-          <div className="entity">
-            {" "}
-            <div className="type">이름</div>{" "}
-            <div className="content">{username}</div>{" "}
-          </div>
-          <div className="entity">
-            {" "}
-            <div className="type">검사 일시</div>{" "}
-            <div className="content">
-              {todayyear}년 {todaymonth}월 {todayday}일
-            </div>{" "}
-          </div>
-          <div className="entity">
-            {" "}
-            <div className="type">분야</div>{" "}
-            <div className="content">{select_category}</div>{" "}
-          </div>
+        <div className="entity">
+          {" "}
+          <div className="type">검사 일시</div>{" "}
+          <div className="content">
+            {todayyear}년 {todaymonth}월 {todayday}일
+          </div>{" "}
         </div>
-        <div className="questionArea">
-          <label id="questionArea-content">{select_question}</label>
+        <div className="entity">
+          {" "}
+          <div className="type">분야</div>{" "}
+          <div className="content">{select_category}</div>{" "}
         </div>
-        <hr></hr>
-        {/* 면접 화면 캡쳐 이미지와 표정 */}
-        <div className="vision">
-          <div className="subtitle">
-            <h3> Vision Analysis </h3>
-          </div>
-          <div className="analyzeimage">
-            <div id="interviewVideo">
-              <video
-                id="video"
-                controls="controls"
-                autoPlay="autoplay"
-                loop="loop"
-              >
-                <source src={file_url} type="video/webm" />
-                Video Error
-              </video>
-              {/* <img
+      </div>
+      <div className="questionArea">
+        <label id="questionArea-content">{select_question}</label>
+      </div>
+      <hr></hr>
+      {/* 면접 화면 캡쳐 이미지와 표정 */}
+      <div className="vision">
+        <div className="subtitle">
+          <h3> Vision Analysis </h3>
+        </div>
+        <div className="analyzeimage">
+          <div id="interviewVideo">
+            <video
+              id="video"
+              controls="controls"
+              autoPlay="autoplay"
+              loop="loop"
+            >
+              <source src={file_url} type="video/webm" />
+              Video Error
+            </video>
+            {/* <img
                 src={require("http://localhost:5001/uploads/5.jpg").default}
                 alt="Logo"
               /> */}
-              {/* <canvas ref={User_canvasRef} className="iriscanvas" /> */}
+            {/* <canvas ref={User_canvasRef} className="iriscanvas" /> */}
+          </div>
+        </div>
+        <div className="Explanation">
+          <p className="explanation-header">답변</p>
+          <p className="explanation-contenet">{transcript}</p>
+        </div>
+      </div>
+
+      {/* 분석결과출력디브 */}
+      <div className="resultArea">
+        <div className="hr"></div>
+        {/* 표정 분석 */}
+        <div id="face">
+          <div className="subtitle">
+            <h3> 표정 분석 </h3>
+          </div>
+          <div className="analyzeimage">
+            <div className="leftdiv">
+              <p className="graphtitle">표정 인식 결과</p>
+              <Bar
+                className="inner"
+                options={FaceBarOptions}
+                height={300}
+                data={FaceBarData}
+              />
+            </div>
+            <div className="rightdiv">
+              <Radar className="inner" data={FaceRadarData} />
             </div>
           </div>
           <div className="Explanation">
-            <p className="explanation-header">답변</p>
-            <p className="explanation-contenet">{transcript}</p>
+            <p className="explanation-header">해석</p>
+            <p className="explanation-contenet">
+              위 그래프는 면접을 진행하는 동안 사용자의 <b>표정 변화</b>를
+              보여주는 그래프입니다.
+              <br />
+              분노∙행복∙혐오∙침착∙슬픔∙놀람∙긴장 총 7가지의 표정 분석을 통해
+              전반적인 얼굴 표정을 확인 할 수 있습니다.
+              <br />
+              그래프를 통해 표정 분석 결과를 확인하고 보완이 필요한 부분을
+              추가로 연습할 수 있습니다.
+            </p>
+          </div>
+        </div>
+        {/* 시선 처리 */}
+        <div className="hr"></div>
+        <div id="iris">
+          <div className="subtitle">
+            <h3> 시선 처리 </h3>
+            <button onClick={() => DrawIrisResult()}>
+              시선 처리 결과 확인하기
+            </button>
+          </div>
+          <div className="analyzeimage">
+            <div className="leftdiv">
+              <canvas ref={Left_canvasRef} className="iriscanvas" />
+            </div>
+            <div className="rightdiv">
+              <canvas ref={Right_canvasRef} className="iriscanvas" />
+            </div>
+          </div>
+          <div className="Explanation">
+            <p className="explanation-header">해석</p>
+            <p className="explanation-contenet">
+              위 그래프는 면접을 진행하는 동안 사용자의{" "}
+              <b>시선이 머무른 영역</b>을 보여주는 그래프입니다.
+              <br /> 그래프는 사용자가 연습하기 버튼을 눌렀을 때 시선을 기준으로
+              그려집니다.
+              <br />
+              왼쪽 그래프는 <b>왼쪽의 홍채의 움직임</b>, 오른쪽 그래프는{" "}
+              <b>오른쪽 홍채의 움직임</b>을 나타냅니다.
+              <br />
+              점으로 표시된 시선 분포의 흩어짐 정도가 크다면, 시선이 여러
+              방향으로 분산 됐다는 것을 의미합니다.
+            </p>
           </div>
         </div>
 
-        {/* 분석결과출력디브 */}
-        <div className="resultArea">
-          <div className="hr"></div>
-          {/* 표정 분석 */}
-          <div id="face">
-            <div className="subtitle">
-              <h3> 표정 분석 </h3>
-            </div>
-            <div className="analyzeimage">
-              <div className="leftdiv">
-                <Bar
-                  className="inner"
-                  options={FaceBarOptions}
-                  height={340}
-                  data={FaceBarData}
-                />
-              </div>
-              <div className="rightdiv">
-                <Radar className="inner" data={FaceRadarData} />
-              </div>
-            </div>
-            <div className="Explanation">
-              <p className="explanation-header">해석</p>
-              <p className="explanation-contenet">
-                {" "}
-                표정에 대한 분석 결과입니다. <br />
-                프레임별 표정에 대한 퍼센트 결과, 표정 변화로 본 감정에 대한
-                결과를 제공합니다.{" "}
-              </p>
-            </div>
+        {/* 단어 분석 */}
+        <div className="hr"></div>
+        <div id="word">
+          <div className="subtitle">
+            <h3> 단어 분석 </h3>
           </div>
-          {/* 시선 처리 */}
-          <div className="hr"></div>
-          <div id="iris">
-            <div className="subtitle">
-              <h3> 시선 처리 </h3>
-              <button onClick={() => DrawIrisResult()}>
-                시선 처리 결과 확인하기
-              </button>
+          <div className="analyzeimage">
+            <div className="leftdiv">
+              <p className="graphtitle">word cloud</p>
+              <ReactWordcloud
+                className="inner"
+                options={options}
+                words={words}
+              />
             </div>
-            <div className="analyzeimage">
-              <div className="leftdiv">
-                <canvas ref={Left_canvasRef} className="iriscanvas" />
-              </div>
-              <div className="rightdiv">
-                <canvas ref={Right_canvasRef} className="iriscanvas" />
-              </div>
-            </div>
-            <div className="Explanation">
-              <p className="explanation-header">해석</p>
-              <p className="explanation-contenet">
-                {" "}
-                위 그래프는 면접을 진행하는 동안 사용자의{" "}
-                <b>시선이 머무른 영역</b>을 보여주는 그래프입니다.
-                <br /> 그래프는 사용자가 연습하기 버튼을 눌렀을 때 시선을
-                기준으로 그려집니다.
-                <br />
-                왼쪽 그래프는 <b>왼쪽의 홍채의 움직임</b>, 오른쪽 그래프는{" "}
-                <b>오른쪽 홍채의 움직임</b>을 나타냅니다.
-                <br />
-                점으로 표시된 시선 분포의 흩어짐 정도가 크다면, 시선이 여러
-                방향으로 분산 됐다는 것을 의미합니다.{" "}
-              </p>
-            </div>
-          </div>
-
-          {/* 단어 분석 */}
-          <div className="hr"></div>
-          <div id="word">
-            <div className="subtitle">
-              <h3> 단어 분석 </h3>
-            </div>
-            <div className="analyzeimage">
-              <div className="leftdiv">
-                <ReactWordcloud
-                  className="inner"
-                  options={options}
-                  words={words}
-                />
-              </div>
-              <div className="rightdiv">
-                <Pie
-                  className="inner"
-                  options={WordPieOptions}
-                  data={WordPieData}
-                />
-                {/* <Bar
+            <div className="rightdiv">
+              <p className="graphtitle">자주 사용한 단어</p>
+              <Pie
+                className="inner"
+                options={WordPieOptions}
+                data={WordPieData}
+              />
+              {/* <Bar
                   options={wordChartOptions}
                   data={wordChartData}
                 /> */}
-              </div>
-            </div>
-            <div className="Explanation">
-              <p className="explanation-header">해석</p>
-              <p className="explanation-contenet">
-                {" "}
-                면접 시 사용한 단어에 대한 분석입니다. <br />
-                많이 사용한 단어를 그래프로 시각화하여 제공합니다.{" "}
-              </p>
             </div>
           </div>
-          {/* 목소리 분석 */}
-          <div className="hr"></div>
-          <div id="voice">
-            <div className="subtitle">
-              <h3> 목소리 분석 </h3>
+          <div className="Explanation">
+            <p className="explanation-header">해석</p>
+            <p className="explanation-contenet">
+              위 그래프는 면접을 진행하는 동안 <b>사용자의 사용 어휘</b>를
+              보여주는 그래프입니다.
+              <br />
+              왼쪽 그래프는 모든 단어의 빈도를 크기로 비교할 수 있는{" "}
+              <b>Word Cloud</b>, 오른쪽 그래프는{" "}
+              <b>사용 빈도수가 높은 상위 10개 단어</b>를 나타냅니다.
+              <br />
+              이와 같은 지워자의 어휘 사용 습관 확인을 통해 부적절하거나
+              불필요한 내용이 반복되지 않았는지 점검해 볼 수 있습니다.
+            </p>
+          </div>
+        </div>
+        {/* 목소리 분석 */}
+        <div className="hr"></div>
+        <div id="voice">
+          <div className="subtitle">
+            <h3> 목소리 분석 </h3>
+          </div>
+          <div className="analyzeimage">
+            <div className="leftdiv">
+              <p className="graphtitle">목소리 크기 변화</p>
+              <Bar
+                className="inner"
+                options={VoiceBarOptions}
+                // width={360}
+                // height={360}
+                data={VoiceBarData}
+              />
             </div>
-            <div className="analyzeimage">
-              <div className="leftdiv">
-                <Bar
-                  className="inner"
-                  options={VoiceBarOptions}
-                  // width={360}
-                  // height={360}
-                  data={VoiceBarData}
-                />
-              </div>
-              <div id="waveformdiv">
-                <Waveform
-                  id="waveform"
-                  barWidth={1}
-                  peaks={audioResult2}
-                  height={200}
-                  duration={duration}
-                  color="#B1B2FF"
-                  progressGradientColors={[[0, "#B1B2FF"]]}
-                />
-              </div>
+            <div id="waveformdiv">
+              <p className="graphtitle">목소리 떨림 변화</p>
+              <Waveform
+                barWidth={1}
+                peaks={audioResult2}
+                height={250}
+                duration={duration}
+                color="#B1B2FF"
+                progressGradientColors={[[0, "#B1B2FF"]]}
+              />
             </div>
-            <div className="Explanation">
-              <p className="explanation-header">해석</p>
-              <p className="explanation-contenet">
-                {" "}
-                면접 영상 속 목소리에 대한 분석입니다. <br />
-                음성의 높낮이, 크기에 대한 결과를 제공합니다.{" "}
-              </p>
-            </div>
+          </div>
+          <div className="Explanation">
+            <p className="explanation-header">해석</p>
+            <p className="explanation-contenet">
+              위 그래프는 면접을 진행하는 동안 <b>사용자의 목소리 분석 결과</b>
+              를 보여주는 그래프입니다.
+              <br />
+              왼쪽 그래프는 <b>목소리 크기 변화</b>를 다섯단계로 나타내고,{" "}
+              오른쪽 그래프는 <b>목소리의 떨림</b>을 나타냅니다.
+              <br />
+              높은 전달력을 위해 적당한 크기와 일정한 톤으로 말하는 것에
+              주의해야합니다. 분석 결과를 통해 지원자의 음성에 대해 확인하고
+              대답하는 것을 연습할 수 있습니다.
+            </p>
           </div>
         </div>
       </div>
     </div>
-    </div>
   );
 }
 
-export default Result;
+class ComponentToPrint extends React.PureComponent {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return <Result/>;
+  }
+}
+
+export class ClassComponent extends React.PureComponent {
+  componentRef = null;
+  constructor(props) {
+    super(props);
+  }
+
+  setComponentRef = (ref) => {
+    this.componentRef = ref;
+  };
+
+  reactToPrintContent = () => {
+    return this.componentRef;
+  };
+  reactToPrintTrigger = () => {
+    return (
+      <button id="printbtn">
+        {" "}
+        <BsFillPrinterFill size="30" />{" "}
+      </button>
+    );
+  };
+
+  render() {
+    return (
+      <div
+        className="background"
+        style={{
+          backgroundImage: "url(./bgimg5.png)",
+          backgroundSize: "contain",
+          width: "100%",
+          height: "auto",
+          backgroundRepeat: "repeat-y",
+        }}
+      >
+        <div className="Result">
+          <ReactToPrint
+            content={this.reactToPrintContent}
+            documentTitle="면접연습분석결과지"
+            removeAfterPrint
+            trigger={this.reactToPrintTrigger}
+          />
+          <div id="result_container">
+            <ComponentToPrint ref={this.setComponentRef} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default ClassComponent;

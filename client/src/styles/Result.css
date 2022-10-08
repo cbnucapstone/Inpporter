@@ -4,23 +4,55 @@ hr {
   border-color: #dcdcdcb4;
 }
 
+.printing{
+  visibility :hidden;
+}
+
+.printing #result_container{
+  position:absolute;
+}
+#printbtn{
+  /* padding-bottom: 5%; */
+  position: fixed;
+  /* font-size: 11px; */
+  bottom:3%;
+  right: 2.5rem;
+
+  color: rgba(244, 131, 102, 0.98);
+  background-color: white;
+  border: 2px solid rgba(244, 131, 102, 0.98);
+  border-radius: 30px;
+  padding: 10px 10px 3px 10px;
+}
+
+#printbtn:hover {
+  color: rgba(248, 182, 150, 0.98);
+  background-color: white;
+  border: 2px solid rgba(248, 182, 150, 0.98);
+}
+
 .Result {
   width: 92%;
   height: auto;
   display: flex;
   padding: 5% 4% 5% 4%;
   margin: 0 auto;
+  flex-direction: column;
 }
 
-.result_container {
+#result_container {
   background-color: white;
   height: auto;
   width: 80%;
   margin: 0 auto;
-  padding: 25px;
+  /* padding: 25px; */
   flex-direction: column;
   border-radius: 15px;
   border: 3px solid #dcdcdcb4;
+}
+
+#resultdiv{
+  padding: 25px;
 }
 
 /* 상단 이름, 검사일시, 분야 */
@@ -101,14 +133,23 @@ hr {
 /* 분석 이미지들*/
 .analyzeimage {
   overflow: hidden;
-  padding-left: 20px;
-  padding-right: 20px;
+  margin: 0 auto;
+  width: 80%;
+}
+
+.graphtitle{
+  font-weight: 700;
+  font-size: 15px;
+  text-align: center;
+  color: rgb(141, 140, 140);
+  letter-spacing: -0.5px;
+  margin-bottom: 10px;
 }
 
 /* 분석-왼쪽div */
 .leftdiv {
   float: left;
-  margin-left: 9%;
+  margin-left: 7%;
   width: 33%;
   position: relative;
   justify-content: center;
@@ -130,7 +171,7 @@ hr {
 /* 분석-오른쪽div */
 .rightdiv {
   float: right;
-  margin-right: 9%;
+  margin-right: 7%;
   width: 33%;
   position: relative;
   justify-content: center;
@@ -159,11 +200,8 @@ hr {
   align-items: center;
   z-index: 0;
   text-align: center;
-  padding-top: 50px;
 }
-#waveform{
-  display: inline-block;
-}
+
 
 /* 해석 출력 div */
 .Explanation {
@@ -173,10 +211,7 @@ hr {
   background-color: #f7f7f7;
   margin-top: 30px;
   margin-bottom: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 25px;
-  padding-right: 25px;
+  padding: 20px 25px 10px 25px;
   color: #5a5a5a;
 }
 
@@ -198,9 +233,10 @@ hr {
 
 #interviewVideo {
   position: relative;
-  width: 100%;
+  width: 70%;
   height: auto;
   text-align: center;
+  margin: 0 auto;
 }
 
 #video {
