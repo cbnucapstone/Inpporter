@@ -25,7 +25,7 @@ const Modal = (props) => {
               </button>
             ) : (
               <Link
-                to="/voicerecord"
+                to="/Inpporter/voicerecord"
                 state={{ question: header_popup, category: cate_popup }}
               >
                 <button className="close">연습하기</button>

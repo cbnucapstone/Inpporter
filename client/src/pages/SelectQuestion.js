@@ -12,7 +12,7 @@ const SelectQuestion = () => {
   };
   const closeModal = () => {
     setmodalOpen(false);
-    navigate("/");
+    navigate("/Inpporter/");
   };
   return (
     <div
@@ -25,16 +25,16 @@ const SelectQuestion = () => {
         backgroundRepeat: "repeat-y",
       }}
     >
-    <div
-      className="home"
-      // style={{ backgroundImage: "url(./background-img.jpg)" }}
-    >
-      <SelectQuestion_Modal
-        open={modalOpen}
-        close={closeModal}
-        header="연습할 질문을 선택해주세요"
-      ></SelectQuestion_Modal>
-    </div>
+      <div
+        className="home"
+        // style={{ backgroundImage: "url(./background-img.jpg)" }}
+      >
+        <SelectQuestion_Modal
+          open={modalOpen}
+          close={closeModal}
+          header="연습할 질문을 선택해주세요"
+        ></SelectQuestion_Modal>
+      </div>
     </div>
   );
 };

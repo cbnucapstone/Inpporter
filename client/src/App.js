@@ -23,14 +23,18 @@ function App() {
         {/* <div className="background" style={{backgroundImage: 'url(./bgimg2.png)',  backgroundSize: 'cover', width: '100%', height:'auto', backgroundRepeat: 'repeat-y', }}> */}
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/Inpporter/" element={<Home />} />
           {/* <Route path="/analyzetype" element={<AnalyzeType />} /> */}
-          <Route path="/signin" element={<SignInPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/question" element={<Question />} />
-          <Route path="/result" element={<ClassComponent />} />
-          <Route path="/voicerecord" element={<Dictaphone />} />
-          <Route path="/selectquestion" element={<SelectQuestion />} />
-          <Route path="/resultList" element={<ResultList />} />
+          <Route path="/Inpporter/signin" element={<SignInPage />} />
+          <Route path="/Inpporter/signup" element={<SignUpPage />} />
+          <Route path="/Inpporter/question" element={<Question />} />
+          <Route path="/Inpporter/result" element={<ClassComponent />} />
+          <Route path="/Inpporter/voicerecord" element={<Dictaphone />} />
+          <Route
+            path="/Inpporter/selectquestion"
+            element={<SelectQuestion />}
+          />
+          <Route path="/Inpporter/resultList" element={<ResultList />} />
         </Routes>
         {/* </div> */}
         <Footer />

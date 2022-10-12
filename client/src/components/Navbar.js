@@ -13,15 +13,15 @@ function Navbar() {
   const clickLogout = () => {
     store.dispatch({ type: "logout" });
     alert("로그아웃 되었습니다.");
-    navigate("/");
+    navigate("/Inpporter/");
   };
 
   const first = (
     <div className="navi-two">
-      <Link to="signin" className="nav-right" id="signin">
+      <Link to="Inpporter/signin" className="nav-right" id="signin">
         Sign In
       </Link>
-      <Link to="signup" className="nav-right" id="signup">
+      <Link to="Inpporter/signup" className="nav-right" id="signup">
         Sign Up
       </Link>
     </div>
@@ -47,35 +47,35 @@ function Navbar() {
       <header>
         <div className="navbar">
           <span className="navbar-logo">
-            <Link to="/">
+            <Link to="/Inpporter/">
               <img src="./logo1.png" id="logo-link" alt="image error" />
             </Link>
           </span>
           <div className="navi-one">
             {login ? (
-              <Link to="selectquestion" className="nav-left">
+              <Link to="/Inpporter/selectquestion" className="nav-left">
                 면접 연습하기
               </Link>
             ) : (
-              <Link to="signin" className="nav-left">
+              <Link to="/Inpporter/signin" className="nav-left">
                 면접 연습하기
               </Link>
             )}
             {login ? (
-              <Link to="question" className="nav-left">
+              <Link to="/Inpporter/question" className="nav-left">
                 면접 질문 리스트
               </Link>
             ) : (
-              <Link to="signin" className="nav-left">
+              <Link to="/Inpporter/signin" className="nav-left">
                 면접 질문 리스트
               </Link>
             )}
             {login ? (
-              <Link to="resultList" className="nav-left">
+              <Link to="/Inpporter/resultList" className="nav-left">
                 면접 분석 결과
               </Link>
             ) : (
-              <Link to="signin" className="nav-left">
+              <Link to="/Inpporter/signin" className="nav-left">
                 면접 분석 결과
               </Link>
             )}
