@@ -118,7 +118,7 @@ const AudioRecord = () => {
     try {
       const constraints = {
         video: true,
-        // audio: true,
+        audio: true,
       };
       navigator.mediaDevices.getUserMedia(constraints).then(callback);
     } catch (err) {
@@ -717,6 +717,7 @@ const AudioRecord = () => {
             autoPlay
             style={Styles.Video}
             id="videoScreen"
+            muted
           ></video>
         </div>
         <div id="btnArea">

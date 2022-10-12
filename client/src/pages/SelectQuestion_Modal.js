@@ -184,7 +184,7 @@ const SelectQuestion_Modal = (props) => {
           header_popup={checkedList[0]}
           cate_popup={selected}
         >
-          "{checkedList[0]}" 에 대한 연습 면접을 진행하시겠습니까?.
+          "{checkedList[0]}" 에 대한 연습 면접을 진행하시겠습니까?
         </Modal>
       )}
       <Modal
