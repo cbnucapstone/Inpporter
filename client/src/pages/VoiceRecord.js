@@ -300,7 +300,7 @@ const AudioRecord = () => {
 
     today = filenameset.split("_");
 
-    navigate("/result", {
+    navigate("/Inpporter/result", {
       state: {
         word: words,
 

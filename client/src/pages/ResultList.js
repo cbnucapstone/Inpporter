@@ -30,7 +30,7 @@ function ResultList() {
         if (res.data.success) {
           console.log("성공");
           console.log(res.data.result[0].fileurl);
-          navigate("/result", {
+          navigate("/Inpporter/result", {
             state: {
               word: res.data.result[0].word,
 
@@ -80,7 +80,7 @@ function ResultList() {
     var minute = temp[1].substring(2, 4);
     var second = temp[1].substring(4);
 
-    return ( 
+    return (
       <Col lg={6} xs={12} className="col">
         <div
           style={{ position: "relative" }}
@@ -126,12 +126,12 @@ function ResultList() {
         backgroundRepeat: "repeat-y",
       }}
     >
-    <div className="resultListPage">
-      <div id="resultListPage_title">
-        <h1>면접 분석 결과 리스트</h1>
+      <div className="resultListPage">
+        <div id="resultListPage_title">
+          <h1>면접 분석 결과 리스트</h1>
+        </div>
+        <Row gutter={32}>{renderCards}</Row>
       </div>
-      <Row gutter={32}>{renderCards}</Row>
-    </div>
     </div>
   );
 }
