@@ -432,7 +432,7 @@ function Result() {
             <video
               id="video"
               controls="controls"
-              autoPlay="autoplay"
+              // autoPlay="autoplay"
               loop="loop"
             >
               <source src={file_url} type="video/webm" />
