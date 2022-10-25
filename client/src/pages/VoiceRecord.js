@@ -130,10 +130,10 @@ const AudioRecord = () => {
   // 표정 인식 모델 초기화
   const loadModels = () => {
     Promise.all([
-      faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
-      faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
-      faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
-      faceapi.nets.faceExpressionNet.loadFromUri("/models"),
+      faceapi.nets.tinyFaceDetector.loadFromUri("./models"),
+      faceapi.nets.faceLandmark68Net.loadFromUri("./models"),
+      faceapi.nets.faceRecognitionNet.loadFromUri("./models"),
+      faceapi.nets.faceExpressionNet.loadFromUri("./models"),
     ]).then(() => {
       // faceDetection();
     });
@@ -215,7 +215,7 @@ const AudioRecord = () => {
       .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
       .withFaceLandmarks()
       .withFaceExpressions();
-    // console.log(detections[0].expressions);
+    console.log(detections[0].expressions);
 
     angry += detections[0].expressions.angry;
     disgusted += detections[0].expressions.disgusted;
