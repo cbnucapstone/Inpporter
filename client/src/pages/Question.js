@@ -33,7 +33,7 @@ const Question = () => {
     };
 
     callApi();
-  }, []);
+  }, [userid]);
 
   // 질문 리스트 받아오기
   useEffect(() => {
@@ -98,7 +98,7 @@ const Question = () => {
             <p className="cateheader">면접 유형 카테고리</p>
             <div className="catediv">
               <button
-                className={"cate" + ("0" == btnActive ? "active" : "")}
+                className={"cate" + ("0" === btnActive ? "active" : "")}
                 id="cate1"
                 onClick={() => setbtnActive("0")}
               >
@@ -107,7 +107,7 @@ const Question = () => {
                 전체
               </button>
               <button
-                className={"cate" + ("1" == btnActive ? "active" : "")}
+                className={"cate" + ("1" === btnActive ? "active" : "")}
                 id="cate2"
                 onClick={() => setbtnActive("1")}
               >
@@ -116,7 +116,7 @@ const Question = () => {
                 역량
               </button>
               <button
-                className={"cate" + ("2" == btnActive ? "active" : "")}
+                className={"cate" + ("2" === btnActive ? "active" : "")}
                 id="cate3"
                 onClick={() => setbtnActive("2")}
               >
@@ -125,7 +125,7 @@ const Question = () => {
                 지원동기
               </button>
               <button
-                className={"cate" + ("3" == btnActive ? "active" : "")}
+                className={"cate" + ("3" === btnActive ? "active" : "")}
                 id="cate4"
                 onClick={() => setbtnActive("3")}
               >
@@ -134,7 +134,7 @@ const Question = () => {
                 직무
               </button>
               <button
-                className={"cate" + ("4" == btnActive ? "active" : "")}
+                className={"cate" + ("4" === btnActive ? "active" : "")}
                 id="cate5"
                 onClick={() => setbtnActive("4")}
               >
