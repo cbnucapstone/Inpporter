@@ -23,7 +23,7 @@ function App() {
         {/* <div className="background" style={{backgroundImage: 'url(./bgimg2.png)',  backgroundSize: 'cover', width: '100%', height:'auto', backgroundRepeat: 'repeat-y', }}> */}
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/Inpporter/" element={<Home />} />
+          <Route exact path="/Inpporter/" element={<Home />} />
           {/* <Route path="/analyzetype" element={<AnalyzeType />} /> */}
           <Route path="/Inpporter/signin" element={<SignInPage />} />
           <Route path="/Inpporter/signup" element={<SignUpPage />} />
