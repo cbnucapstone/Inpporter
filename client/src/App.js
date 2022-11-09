@@ -24,7 +24,6 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           {/* <Route exact path="/Inpporter/" element={<Home />} /> */}
-          {/* <Route path="/analyzetype" element={<AnalyzeType />} /> */}
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/question" element={<Question />} />
