@@ -44,7 +44,7 @@ const SignInPage = ({ history }) => {
             id: res.data.userId,
             name: res.data.name,
           });
-          from("/Inpporter/");
+          from("/");
         }
       })
       .catch((err) => {
@@ -88,7 +88,7 @@ const SignInPage = ({ history }) => {
             로그인
           </button>
         </div>
-        <Link to="/Inpporter/signup">
+        <Link to="/signup">
           <div class="Btns">
             <button type="button" id="SingUpBtn" class="Btn">
               회원가입

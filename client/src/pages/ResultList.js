@@ -30,7 +30,7 @@ function ResultList() {
         if (res.data.success) {
           console.log("성공");
           console.log(res.data.result[0].fileurl);
-          navigate("/Inpporter/result", {
+          navigate("/result", {
             state: {
               word: res.data.result[0].word,
 

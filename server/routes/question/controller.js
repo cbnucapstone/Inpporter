@@ -40,7 +40,7 @@ const write = async (req, res) => {
     // console.log("디비에 저장 성공");
   } catch (err) {
     console.log("디비 저장 실패");
-    res.redirect("/Inpporter/question");
+    res.redirect("/question");
   }
 };
 

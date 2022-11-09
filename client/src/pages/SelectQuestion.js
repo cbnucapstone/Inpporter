@@ -12,7 +12,7 @@ const SelectQuestion = () => {
   };
   const closeModal = () => {
     setmodalOpen(false);
-    navigate("/Inpporter/");
+    navigate("/");
   };
   return (
     <div

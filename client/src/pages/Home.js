@@ -23,11 +23,11 @@ function Home() {
           </h1>
           <p>AI 분석을 통한 면접 연습으로 꿈의 회사에 한걸음 더 다가가세요!</p>
           {login ? (
-            <Link to="/Inpporter/selectquestion">
+            <Link to="/selectquestion">
               <button>바로 시작하기</button>
             </Link>
           ) : (
-            <Link to="/Inpporter/signin">
+            <Link to="/signin">
               <button>바로 시작하기</button>
             </Link>
           )}
