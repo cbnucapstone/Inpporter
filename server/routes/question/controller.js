@@ -50,9 +50,9 @@ const update = async (req, res) => {
   // console.log(req.body);
   // console.log(req.body.id);
   try {
-    const _id = req.body._id;
+    const _id = req.body.id;
     const text = req.body.text;
-    await Question.findByIdAndUpdate({ _id }, { $set: { _id: _id, text:text } });
+    await Question.findByIdAndUpdate({ _id }, { $set: { _id: id, text:text } });
   } catch (err) {
     console.log("수정 실패");
   }
