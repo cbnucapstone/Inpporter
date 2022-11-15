@@ -22,7 +22,7 @@ const getSelected = (req, res, next) => {
       try {
         if (!data) return res.json({ error: true });
         res.json({ list: data });
-        next();
+        // next();
       } catch (err) {
         console.error(err);
         throw err;
@@ -50,9 +50,9 @@ const update = async (req, res) => {
   // console.log(req.body);
   // console.log(req.body.id);
   try {
-    const _id = req.body.id;
+    const _id = req.body._id;
     const text = req.body.text;
-    await Question.findByIdAndUpdate({ _id }, { $set: { _id, text } });
+    await Question.findByIdAndUpdate({ _id }, { $set: { _id: _id, text:text } });
   } catch (err) {
     console.log("수정 실패");
   }
