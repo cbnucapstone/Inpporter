@@ -33,9 +33,10 @@
 
 .modal > section > header {
   position: relative;
-  padding: 16px 64px 16px 16px;
+  padding: 16px 64px 16px 25px;
   background-color: #f1f1f1;
   font-weight: 700;
+  font-size:large;
 }
 
 .modal > section > header button {
@@ -78,7 +79,7 @@
   background-color: white;
   font-weight: bold;
   color: #5c5c5c;
-  font-size: inherit;
+  font-size: 16px;
 }
 
 .leftbuttonactive {
@@ -89,7 +90,7 @@
   background-color: white;
   font-weight: bold;
   color: #ff6464;
-  font-size: inherit;
+  font-size: 17px;
 }
 
 .right {
@@ -105,11 +106,16 @@
 
 .question_content {
   padding: 10px;
+  padding-top:10px;
   border-radius: 0.7rem;
   border: solid 1px #dee2e6;
   margin: 10px;
   color: #5c5c5c;
   font-size: inherit;
+}
+
+.question_content .p{
+  margin-top: 1em!important;
 }
 
 .question_content input {

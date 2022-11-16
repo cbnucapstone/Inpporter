@@ -5,7 +5,7 @@ import $ from "jquery";
 
 const QuestionItem = ({ questionItem }) => {
   const [edited, setEdited] = useState(false);
-  const [newText, setNewText] = useState(questionItem.text);
+  const [newText, setNewText] = useState("");
   const editInputRef = useRef(null);
 
   useEffect(() => {
@@ -13,6 +13,7 @@ const QuestionItem = ({ questionItem }) => {
       editInputRef.current.focus(); // edit 모드일때 포커싱
     }
   }, [edited]);
+
 
   const onClickDeleteBtn = (e) => {
     if (window.confirm("정말로 삭제하시겠습니까?")) {
@@ -23,6 +24,7 @@ const QuestionItem = ({ questionItem }) => {
 
   const onClickEditBtn = (e) => {
     setEdited(true); 
+    setNewText(questionItem.text);
   };
 
   // const onEnter = (e) => {
@@ -34,9 +36,11 @@ const QuestionItem = ({ questionItem }) => {
   //수정된 input값 가져오기
   const onChangeEditInput = (e) => {
     setNewText(e.target.value);
+
   };
 
   const onClickSubmitBtn = (e) => {
+    console.log("서브밋아이디",e);
     let body = {
       id: e,
       text: newText,

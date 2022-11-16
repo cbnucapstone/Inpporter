@@ -223,8 +223,12 @@ const StyledLabel = styled.label`
   display: flex;
   align-items: center;
   user-select: none;
+  margin-left:0.5rem;
 `;
 
 const StyledP = styled.p`
   margin-left: 0.25rem;
+  margin-top:0.5rem;
+  margin-bottom:0.5rem;
+  font-size:16px;
 `;

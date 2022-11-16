@@ -52,7 +52,7 @@ const update = async (req, res) => {
   try {
     const _id = req.body.id;
     const text = req.body.text;
-    await Question.findByIdAndUpdate({ _id }, { $set: { _id: id, text:text } });
+    await Question.findByIdAndUpdate({ _id }, { $set: { _id, text } });
   } catch (err) {
     console.log("수정 실패");
   }

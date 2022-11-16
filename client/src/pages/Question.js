@@ -56,6 +56,7 @@ const Question = () => {
 
     const makeData = (items) => {
       setQuestionList(items);
+      console.log(items);
     };
 
     callApi();
